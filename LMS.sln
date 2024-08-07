@@ -7,6 +7,18 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{55E10625-1FF
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LMS.Web", "src\LMS.Web\LMS.Web.csproj", "{9F2021CA-7185-4F5F-809E-077EE7AF253C}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "documentation", "documentation", "{93E33410-A687-4282-9441-A64E0FE79432}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "images", "images", "{EE0A9222-5828-4D78-89AE-C4D204F329D3}"
+	ProjectSection(SolutionItems) = preProject
+		documentation\images\A.txt = documentation\images\A.txt
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{385B5047-826A-416F-8097-E8695F44C4F4}"
+	ProjectSection(SolutionItems) = preProject
+		tests\A.txt = tests\A.txt
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -23,6 +35,7 @@ Global
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{9F2021CA-7185-4F5F-809E-077EE7AF253C} = {55E10625-1FFE-4F18-B206-9934B870B275}
+		{EE0A9222-5828-4D78-89AE-C4D204F329D3} = {93E33410-A687-4282-9441-A64E0FE79432}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {CFD912A6-4CD3-4B61-91B5-89D3C38FE1C2}
