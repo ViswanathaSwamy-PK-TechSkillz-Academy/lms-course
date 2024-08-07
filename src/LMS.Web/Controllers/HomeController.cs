@@ -2,31 +2,31 @@ using LMS.Web.Models;
 using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
 
-namespace LMS.Web.Controllers
+namespace LMS.Web.Controllers;
+
+public class HomeController(ILogger<HomeController> logger) : Controller
 {
-    public class HomeController : Controller
+    private readonly ILogger<HomeController> _logger = logger ?? throw new ArgumentNullException(nameof(logger));
+
+    public IActionResult Index()
     {
-        private readonly ILogger<HomeController> _logger;
+        _logger.LogInformation("Home page visited at {time}", DateTime.Now);
 
-        public HomeController(ILogger<HomeController> logger)
-        {
-            _logger = logger;
-        }
+        return View();
+    }
 
-        public IActionResult Index()
-        {
-            return View();
-        }
+    public IActionResult Privacy()
+    {
+        _logger.LogInformation("Privacy page visited at {time}", DateTime.Now);
 
-        public IActionResult Privacy()
-        {
-            return View();
-        }
+        return View();
+    }
 
-        [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
-        public IActionResult Error()
-        {
-            return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
-        }
+    [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
+    public IActionResult Error()
+    {
+        _logger.LogError("An error occurred at {time}", DateTime.Now);
+
+        return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
     }
 }
