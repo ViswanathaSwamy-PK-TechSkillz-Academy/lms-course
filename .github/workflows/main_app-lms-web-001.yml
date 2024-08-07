@@ -19,7 +19,7 @@ env:
   AZURE_WEBAPP_NAME: your-app-name # set this to the name of your Azure Web App
   AZURE_WEBAPP_PACKAGE_PATH: "." # set this to the path to your web app project, defaults to the repository root
   DOTNET_VERSION: "8.x" # set this to the .NET Core version to use
-  DOTNET_ROOT: "./dotnet_root" # set this to a local directory for publishing the app
+  PUBLISH_ROOT: "." # set this to a local directory for publishing the app
 
 defaults:
   run:
@@ -41,13 +41,13 @@ jobs:
         run: dotnet build --configuration Release
 
       - name: dotnet publish
-        run: dotnet publish -c Release -o ${{env.DOTNET_ROOT}}/lmsapp
+        run: dotnet publish -c Release -o ${{env.PUBLISH_ROOT}}/lmsapp
 
       - name: Upload artifact for deployment job
         uses: actions/upload-artifact@v4
         with:
           name: .net-app
-          path: ${{env.DOTNET_ROOT}}/lmsapp
+          path: ${{env.PUBLISH_ROOT}}/lmsapp
 
   deploy:
     runs-on: windows-latest
