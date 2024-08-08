@@ -1,6 +1,6 @@
 ﻿namespace LMS.Web.Models;
 
-internal class TestViewModel
+public class TestViewModel
 {
     public string Name { get; set; } = string.Empty;
 
