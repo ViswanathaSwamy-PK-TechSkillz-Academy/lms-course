@@ -3,11 +3,11 @@ using LMS.Web.Extensions;
 WebApplicationBuilder builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
-builder.ConfigureServices();
+builder.AddConfiguredServices();
 
 WebApplication app = builder.Build();
 
 // Configure the HTTP request pipeline.
-app.ConfigurePipeline();
+app.UseConfiguredPipeline();
 
 app.Run();

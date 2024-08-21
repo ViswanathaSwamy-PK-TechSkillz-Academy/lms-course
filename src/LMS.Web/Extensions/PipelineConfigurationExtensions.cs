@@ -1,8 +1,8 @@
 ﻿namespace LMS.Web.Extensions;
 
-public static class ApplicationBuilderExtensions
+public static class PipelineConfigurationExtensions
 {
-    public static void ConfigurePipeline(this WebApplication app)
+    public static void UseConfiguredPipeline(this WebApplication app)
     {
         if (app.Environment.IsDevelopment())
         {

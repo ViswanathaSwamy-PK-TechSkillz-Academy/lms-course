@@ -4,9 +4,9 @@ using Microsoft.EntityFrameworkCore;
 
 namespace LMS.Web.Extensions;
 
-public static class ServiceExtensions
+public static class ServiceConfigurationExtensions
 {
-    public static void ConfigureServices(this WebApplicationBuilder builder)
+    public static void AddConfiguredServices(this WebApplicationBuilder builder)
     {
         string connectionString = builder.Configuration.GetConnectionString("DefaultConnection") ?? throw new InvalidOperationException("Connection string 'DefaultConnection' not found.");
 
