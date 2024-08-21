@@ -1,4 +1,7 @@
-﻿namespace LMS.Web.Data.Migrations
+﻿using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
+
+namespace LMS.Web.Data.Migrations
 {
     public partial class CreateIdentitySchema : Migration
     {
