@@ -8,7 +8,7 @@ public static class ServiceExtensions
 {
     public static void ConfigureServices(this WebApplicationBuilder builder)
     {
-        var connectionString = builder.Configuration.GetConnectionString("DefaultConnection") ?? throw new InvalidOperationException("Connection string 'DefaultConnection' not found.");
+        string connectionString = builder.Configuration.GetConnectionString("DefaultConnection") ?? throw new InvalidOperationException("Connection string 'DefaultConnection' not found.");
 
         _ = builder.Services.AddDbContext<ApplicationDbContext>(options => options.UseSqlServer(connectionString));
 
