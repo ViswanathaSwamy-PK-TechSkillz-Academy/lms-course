@@ -4,7 +4,6 @@ public static class ApplicationBuilderExtensions
 {
     public static void ConfigurePipeline(this WebApplication app)
     {
-        // Configure the HTTP request pipeline.
         if (app.Environment.IsDevelopment())
         {
             app.UseMigrationsEndPoint();
