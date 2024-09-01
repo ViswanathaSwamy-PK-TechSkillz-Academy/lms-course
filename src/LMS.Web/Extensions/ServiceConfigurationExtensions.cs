@@ -1,4 +1,5 @@
 ﻿using LMS.IdentityPersistence;
+using LMS.Persistence;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
@@ -8,9 +9,11 @@ public static class ServiceConfigurationExtensions
 {
     public static void AddConfiguredServices(this WebApplicationBuilder builder)
     {
-        string connectionString = builder.Configuration.GetConnectionString("LMSIdentityDbConnection") ?? throw new InvalidOperationException("Connection string 'LMSIdentityDbConnection' not found.");
+        string lmsIdentityDbConnectionString = builder.Configuration.GetConnectionString("LMSIdentityDbConnection") ?? throw new InvalidOperationException("Connection string 'LMSIdentityDbConnection' not found.");
+        _ = builder.Services.AddDbContext<LMSIdentityDbContext>(options => options.UseSqlServer(lmsIdentityDbConnectionString));
 
-        _ = builder.Services.AddDbContext<LMSIdentityDbContext>(options => options.UseSqlServer(connectionString));
+        string lmsDbConnectionString = builder.Configuration.GetConnectionString("LMSDbConnection") ?? throw new InvalidOperationException("Connection string 'LMSDbConnection' not found.");
+        _ = builder.Services.AddDbContext<LMSDbContext>(options => options.UseSqlServer(lmsDbConnectionString));
 
         _ = builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 
