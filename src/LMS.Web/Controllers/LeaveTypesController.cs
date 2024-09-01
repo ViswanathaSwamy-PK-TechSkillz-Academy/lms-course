@@ -5,20 +5,24 @@ using Microsoft.EntityFrameworkCore;
 
 namespace LMS.Web.Controllers
 {
-    public class LeaveTypesController(LMSDbContext context) : Controller
+    public class LeaveTypesController(LMSDbContext context, ILogger<LeaveTypesController> logger) : Controller
     {
         private readonly LMSDbContext _context = context ?? throw new ArgumentNullException(nameof(context));
-
+        private readonly ILogger<LeaveTypesController> _logger = logger ?? throw new ArgumentNullException(nameof(logger));
 
         // GET: LeaveTypes
         public async Task<IActionResult> Index()
         {
+            _logger.LogInformation("LeaveTypes page visited at {time}", DateTime.Now);
+
             return View(await _context.LeaveTypes.ToListAsync());
         }
 
         // GET: LeaveTypes/Details/5
         public async Task<IActionResult> Details(int? id)
         {
+            _logger.LogInformation("LeaveType details page visited at {time}", DateTime.Now);
+
             if (id == null)
             {
                 return NotFound();
@@ -37,6 +41,8 @@ namespace LMS.Web.Controllers
         // GET: LeaveTypes/Create
         public IActionResult Create()
         {
+            _logger.LogInformation("LeaveType create page visited at {time}", DateTime.Now);
+
             return View();
         }
 
@@ -47,6 +53,8 @@ namespace LMS.Web.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("Name,NumberOfDays,Id")] LeaveType leaveType)
         {
+            _logger.LogInformation("LeaveType created at {time}", DateTime.Now);
+
             if (ModelState.IsValid)
             {
                 _context.Add(leaveType);
@@ -59,6 +67,8 @@ namespace LMS.Web.Controllers
         // GET: LeaveTypes/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
+            _logger.LogInformation("LeaveType edit page visited at {time}", DateTime.Now);
+
             if (id == null)
             {
                 return NotFound();
@@ -79,6 +89,8 @@ namespace LMS.Web.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, [Bind("Name,NumberOfDays,Id")] LeaveType leaveType)
         {
+            _logger.LogInformation("LeaveType edited at {time}", DateTime.Now);
+
             if (id != leaveType.Id)
             {
                 return NotFound();
@@ -110,6 +122,8 @@ namespace LMS.Web.Controllers
         // GET: LeaveTypes/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
+            _logger.LogInformation("LeaveType delete page visited at {time}", DateTime.Now);
+
             if (id == null)
             {
                 return NotFound();
@@ -130,6 +144,8 @@ namespace LMS.Web.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
+            _logger.LogInformation("LeaveType deleted at {time}", DateTime.Now);
+
             var leaveType = await _context.LeaveTypes.FindAsync(id);
             if (leaveType != null)
             {
@@ -142,6 +158,7 @@ namespace LMS.Web.Controllers
 
         private bool LeaveTypeExists(int id)
         {
+            _logger.LogInformation("Checking if LeaveType exists at {time}", DateTime.Now);
             return _context.LeaveTypes.Any(e => e.Id == id);
         }
     }
