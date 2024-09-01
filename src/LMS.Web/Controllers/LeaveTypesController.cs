@@ -5,14 +5,10 @@ using Microsoft.EntityFrameworkCore;
 
 namespace LMS.Web.Controllers
 {
-    public class LeaveTypesController : Controller
+    public class LeaveTypesController(LMSDbContext context) : Controller
     {
-        private readonly LMSDbContext _context;
+        private readonly LMSDbContext _context = context ?? throw new ArgumentNullException(nameof(context));
 
-        public LeaveTypesController(LMSDbContext context)
-        {
-            _context = context;
-        }
 
         // GET: LeaveTypes
         public async Task<IActionResult> Index()
