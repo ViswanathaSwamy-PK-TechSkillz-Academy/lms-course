@@ -5,7 +5,7 @@ I am learning ASP.NET Core MVC Application from different Video Courses, Books, 
 ```powershell
 dotnet tool update --global dotnet-ef
 
-# D:\HDV\hdv-tutor\src\Tutor.StudentWeb> 
+# D:\TSA\lms-course>
 dotnet ef migrations add CreateIdentitySchema --project ../LMS.IdentityPersistence --startup-project .
 dotnet ef database update
 ```
