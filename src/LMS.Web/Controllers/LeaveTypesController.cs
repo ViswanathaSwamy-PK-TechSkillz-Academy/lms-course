@@ -28,8 +28,7 @@ namespace LMS.Web.Controllers
                 return NotFound();
             }
 
-            var leaveType = await _context.LeaveTypes
-                .FirstOrDefaultAsync(m => m.Id == id);
+            LeaveType? leaveType = await _context.LeaveTypes.FirstOrDefaultAsync(m => m.Id == id);
             if (leaveType == null)
             {
                 return NotFound();
@@ -74,7 +73,7 @@ namespace LMS.Web.Controllers
                 return NotFound();
             }
 
-            var leaveType = await _context.LeaveTypes.FindAsync(id);
+            LeaveType? leaveType = await _context.LeaveTypes.FindAsync(id);
             if (leaveType == null)
             {
                 return NotFound();
@@ -129,7 +128,7 @@ namespace LMS.Web.Controllers
                 return NotFound();
             }
 
-            var leaveType = await _context.LeaveTypes
+            LeaveType? leaveType = await _context.LeaveTypes
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (leaveType == null)
             {
@@ -146,7 +145,7 @@ namespace LMS.Web.Controllers
         {
             _logger.LogInformation("LeaveType deleted at {time}", DateTime.Now);
 
-            var leaveType = await _context.LeaveTypes.FindAsync(id);
+            LeaveType? leaveType = await _context.LeaveTypes.FindAsync(id);
             if (leaveType != null)
             {
                 _context.LeaveTypes.Remove(leaveType);
