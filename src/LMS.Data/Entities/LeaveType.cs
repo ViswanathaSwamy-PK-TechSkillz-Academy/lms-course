@@ -5,7 +5,7 @@ namespace LMS.Data.Entities;
 public class LeaveType : BaseEntity
 {
     [MaxLength(150)]
-    public string Name { get; set; } = default!;
+    public string Name { get; set; } = string.Empty;
 
     public int NumberOfDays { get; set; }
 
