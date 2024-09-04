@@ -1,5 +1,6 @@
 ﻿using LMS.Data.Entities;
 using LMS.Persistence;
+using LMS.Web.Models.LeaveTypes;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
@@ -15,7 +16,16 @@ namespace LMS.Web.Controllers
         {
             _logger.LogInformation("LeaveTypes page visited at {time}", DateTime.Now);
 
-            return View(await _context.LeaveTypes.ToListAsync());
+            var leaveTypes = await _context.LeaveTypes.ToListAsync();
+
+            var leaveTypeVMs = leaveTypes.Select(lt => new IndexVM
+            {
+                Id = lt.Id,
+                Name = lt.Name,
+                NumberOfDays = lt.NumberOfDays
+            });
+
+            return View(leaveTypeVMs);
         }
 
         // GET: LeaveTypes/Details/5
