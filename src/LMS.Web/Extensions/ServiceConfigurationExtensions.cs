@@ -2,6 +2,7 @@
 using LMS.Persistence;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using System.Reflection;
 
 namespace LMS.Web.Extensions;
 
@@ -16,6 +17,8 @@ public static class ServiceConfigurationExtensions
         _ = builder.Services.AddDbContext<LMSDbContext>(options => options.UseSqlServer(lmsDbConnectionString));
 
         _ = builder.Services.AddDatabaseDeveloperPageExceptionFilter();
+
+        _ = builder.Services.AddAutoMapper(Assembly.GetExecutingAssembly());
 
         _ = builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
                             .AddEntityFrameworkStores<LMSIdentityDbContext>();
