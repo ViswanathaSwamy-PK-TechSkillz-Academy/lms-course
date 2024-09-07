@@ -20,7 +20,7 @@ namespace LMS.Web.Controllers
 
             List<LeaveType> leaveTypes = await _context.LeaveTypes.ToListAsync();
 
-            IEnumerable<IndexVM> leaveTypeVMs = _mapper.Map<IEnumerable<IndexVM>>(leaveTypes);
+            IEnumerable<LeaveTypeReadOnlyVM> leaveTypeVMs = _mapper.Map<IEnumerable<LeaveTypeReadOnlyVM>>(leaveTypes);
 
             return View(leaveTypeVMs);
         }

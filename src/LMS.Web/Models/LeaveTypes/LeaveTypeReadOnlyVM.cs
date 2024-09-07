@@ -2,7 +2,7 @@
 
 namespace LMS.Web.Models.LeaveTypes;
 
-public class IndexVM
+public class LeaveTypeReadOnlyVM
 {
     public int Id { get; set; }
 

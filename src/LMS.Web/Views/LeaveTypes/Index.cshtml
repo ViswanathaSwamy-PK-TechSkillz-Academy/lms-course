@@ -1,6 +1,6 @@
 ﻿@* @using LMS.Data.Entities *@
 
-@model IEnumerable<IndexVM>
+@model IEnumerable<LeaveTypeReadOnlyVM>
 
 @{
     ViewData["Title"] = "Index";
@@ -24,7 +24,7 @@
         </tr>
     </thead>
     <tbody>
-        @foreach (IndexVM? item in Model)
+        @foreach (LeaveTypeReadOnlyVM? item in Model)
         {
             <tr>
                 <td>
