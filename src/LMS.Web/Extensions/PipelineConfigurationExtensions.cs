@@ -24,9 +24,7 @@ public static class PipelineConfigurationExtensions
 
         _ = app.UseAuthorization();
 
-        _ = app.MapControllerRoute(
-            name: "default",
-            pattern: "{controller=Home}/{action=Index}/{id?}");
+        _ = app.MapControllerRoute(name: "default", pattern: "{controller=Home}/{action=Index}/{id?}");
 
         _ = app.MapRazorPages();
     }
