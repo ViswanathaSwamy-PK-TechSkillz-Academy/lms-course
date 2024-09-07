@@ -41,7 +41,9 @@ namespace LMS.Web.Controllers
                 return NotFound();
             }
 
-            return View(leaveType);
+            LeaveTypeReadOnlyVM leaveTypeReadOnlyVM = _mapper.Map<LeaveTypeReadOnlyVM>(leaveType);
+
+            return View(leaveTypeReadOnlyVM);
         }
 
         // GET: LeaveTypes/Create
