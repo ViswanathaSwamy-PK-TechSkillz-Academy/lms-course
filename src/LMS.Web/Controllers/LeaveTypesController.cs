@@ -4,7 +4,6 @@ using LMS.Persistence;
 using LMS.Web.Models.LeaveTypes;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using System.Collections.Generic;
 
 namespace LMS.Web.Controllers
 {
@@ -21,7 +20,7 @@ namespace LMS.Web.Controllers
 
             List<LeaveType> leaveTypes = await _context.LeaveTypes.ToListAsync();
 
-            IEnumerable<IndexVM> leaveTypeVMs = _mapper.Map<IEnumerable<IndexVM>>(leaveTypes);
+            IEnumerable<LeaveTypeReadOnlyVM> leaveTypeVMs = _mapper.Map<IEnumerable<LeaveTypeReadOnlyVM>>(leaveTypes);
 
             return View(leaveTypeVMs);
         }
@@ -42,7 +41,9 @@ namespace LMS.Web.Controllers
                 return NotFound();
             }
 
-            return View(leaveType);
+            LeaveTypeReadOnlyVM leaveTypeReadOnlyVM = _mapper.Map<LeaveTypeReadOnlyVM>(leaveType);
+
+            return View(leaveTypeReadOnlyVM);
         }
 
         // GET: LeaveTypes/Create

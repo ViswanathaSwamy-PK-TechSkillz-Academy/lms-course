@@ -8,6 +8,6 @@ public class LeaveTypeAutoMapperProfile : Profile
 {
     public LeaveTypeAutoMapperProfile()
     {
-        _ = CreateMap<LeaveType, IndexVM>().ReverseMap();
+        _ = CreateMap<LeaveType, LeaveTypeReadOnlyVM>().ReverseMap();
     }
 }
