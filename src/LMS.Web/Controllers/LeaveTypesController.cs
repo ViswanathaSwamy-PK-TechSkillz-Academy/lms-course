@@ -1,29 +1,27 @@
-﻿using LMS.Data.Entities;
+﻿using AutoMapper;
+using LMS.Data.Entities;
 using LMS.Persistence;
 using LMS.Web.Models.LeaveTypes;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using System.Collections.Generic;
 
 namespace LMS.Web.Controllers
 {
-    public class LeaveTypesController(LMSDbContext context, ILogger<LeaveTypesController> logger) : Controller
+    public class LeaveTypesController(LMSDbContext context, ILogger<LeaveTypesController> logger, IMapper mapper) : Controller
     {
         private readonly LMSDbContext _context = context ?? throw new ArgumentNullException(nameof(context));
         private readonly ILogger<LeaveTypesController> _logger = logger ?? throw new ArgumentNullException(nameof(logger));
+        private readonly IMapper _mapper = mapper ?? throw new ArgumentNullException(nameof(mapper));
 
         // GET: LeaveTypes
         public async Task<IActionResult> Index()
         {
             _logger.LogInformation("LeaveTypes page visited at {time}", DateTime.Now);
 
-            var leaveTypes = await _context.LeaveTypes.ToListAsync();
+            List<LeaveType> leaveTypes = await _context.LeaveTypes.ToListAsync();
 
-            var leaveTypeVMs = leaveTypes.Select(lt => new IndexVM
-            {
-                Id = lt.Id,
-                Name = lt.Name,
-                NumberOfDays = lt.NumberOfDays
-            });
+            IEnumerable<IndexVM> leaveTypeVMs = _mapper.Map<IEnumerable<IndexVM>>(leaveTypes);
 
             return View(leaveTypeVMs);
         }
