@@ -9,5 +9,7 @@ public class LeaveTypeAutoMapperProfile : Profile
     public LeaveTypeAutoMapperProfile()
     {
         _ = CreateMap<LeaveType, LeaveTypeReadOnlyVM>().ReverseMap();
+
+        _ = CreateMap<LeaveTypeCreateVM, LeaveType>();
     }
 }
