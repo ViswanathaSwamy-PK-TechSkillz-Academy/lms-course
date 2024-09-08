@@ -11,7 +11,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace LMS.Persistence.Migrations
 {
     [DbContext(typeof(LMSDbContext))]
-    [Migration("20240908113340_ChangingTheSchema")]
+    [Migration("20240908114626_ChangingTheSchema")]
     partial class ChangingTheSchema
     {
         /// <inheritdoc />

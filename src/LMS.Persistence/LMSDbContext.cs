@@ -14,6 +14,6 @@ public class LMSDbContext(DbContextOptions<LMSDbContext> options) : DbContext(op
         base.OnModelCreating(modelBuilder);
 
         // Set default schema for the entire context
-        modelBuilder.HasDefaultSchema(Schema);
+        modelBuilder.HasDefaultSchema("lms");
     }
 }
