@@ -59,17 +59,21 @@ namespace LMS.Web.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Name,NumberOfDays,Id")] LeaveType leaveType)
+        public async Task<IActionResult> Create([Bind("Name,NumberOfDays")] LeaveTypeCreateVM leaveTypeCreateVM)
         {
             _logger.LogInformation("LeaveType created at {time}", DateTime.Now);
 
             if (ModelState.IsValid)
             {
+                LeaveType leaveType = _mapper.Map<LeaveType>(leaveTypeCreateVM);
+
                 _context.Add(leaveType);
                 await _context.SaveChangesAsync();
+
                 return RedirectToAction(nameof(Index));
             }
-            return View(leaveType);
+
+            return View(leaveTypeCreateVM);
         }
 
         // GET: LeaveTypes/Edit/5
