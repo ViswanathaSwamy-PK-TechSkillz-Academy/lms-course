@@ -4,7 +4,7 @@
 		<TargetFramework>net8.0</TargetFramework>
 		<Nullable>enable</Nullable>
 		<ImplicitUsings>enable</ImplicitUsings>
-		<UserSecretsId>aspnet-LMS.Web-e2f42b2b-19a7-40ba-af42-cf63b62fee25</UserSecretsId>
+		<UserSecretsId>e2f42b2b-LMS.Web</UserSecretsId>
 	</PropertyGroup>
 
 	<ItemGroup>
