@@ -17,6 +17,8 @@ C:\> CD D:\TSA\lms-course\src\LMS.Web>
 
 # Add migration for LMSDbContext
 dotnet ef migrations add AddingLeaveTypeTable --project ../LMS.Persistence --startup-project . --context LMSDbContext
+dotnet ef migrations add ChangingTheSchema --project ../LMS.Persistence --startup-project . --context LMSDbContext
+dotnet ef migrations add ChangingTheSchemaV1 --project ../LMS.Persistence --startup-project . --context LMSDbContext
 
 # Update database for LMSDbContext
 dotnet ef database update --context LMSDbContext
