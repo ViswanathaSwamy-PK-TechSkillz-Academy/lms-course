@@ -5,7 +5,7 @@
 namespace LMS.Persistence.Migrations
 {
     /// <inheritdoc />
-    public partial class AddingLeaveTypeTable : Migration
+    public partial class LmsAddingLeaveTypeTable : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
