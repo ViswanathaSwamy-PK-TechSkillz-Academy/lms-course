@@ -7,12 +7,8 @@ using Microsoft.EntityFrameworkCore;
 
 namespace LMS.Web.Controllers
 {
-    public class LeaveTypesController(LMSDbContext context, ILogger<LeaveTypesController> logger, IMapper mapper) : Controller
+    public class LeaveTypesController(LMSDbContext _context, ILogger<LeaveTypesController> _logger, IMapper _mapper) : Controller
     {
-        private readonly LMSDbContext _context = context ?? throw new ArgumentNullException(nameof(context));
-        private readonly ILogger<LeaveTypesController> _logger = logger ?? throw new ArgumentNullException(nameof(logger));
-        private readonly IMapper _mapper = mapper ?? throw new ArgumentNullException(nameof(mapper));
-
         // GET: LeaveTypes
         public async Task<IActionResult> Index()
         {

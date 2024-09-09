@@ -4,10 +4,8 @@ using System.Diagnostics;
 
 namespace LMS.Web.Controllers;
 
-public class HomeController(ILogger<HomeController> logger) : Controller
+public class HomeController(ILogger<HomeController> _logger) : Controller
 {
-    private readonly ILogger<HomeController> _logger = logger ?? throw new ArgumentNullException(nameof(logger));
-
     public IActionResult Index()
     {
         _logger.LogInformation("Home page visited at {time}", DateTime.Now);

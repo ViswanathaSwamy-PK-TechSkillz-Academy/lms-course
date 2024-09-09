@@ -11,14 +11,15 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace LMS.Persistence.Migrations
 {
     [DbContext(typeof(LMSDbContext))]
-    [Migration("20240901163113_AddingLeaveTypeTable")]
-    partial class AddingLeaveTypeTable
+    [Migration("20240908163600_LmsChangingTheSchema")]
+    partial class LmsChangingTheSchema
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
+                .HasDefaultSchema("lms")
                 .HasAnnotation("ProductVersion", "8.0.8")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
@@ -42,7 +43,7 @@ namespace LMS.Persistence.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("LeaveTypes");
+                    b.ToTable("LeaveTypes", "lms");
                 });
 #pragma warning restore 612, 618
         }
