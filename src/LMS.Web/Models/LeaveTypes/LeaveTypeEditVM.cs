@@ -2,7 +2,7 @@
 
 namespace LMS.Web.Models.LeaveTypes;
 
-public class LeaveTypeEditVM
+public class LeaveTypeEditVM : BaseLeaveTypeVM
 {
     [Required]
     [Length(4, 150, ErrorMessage = "You have violated the length requirements")]
