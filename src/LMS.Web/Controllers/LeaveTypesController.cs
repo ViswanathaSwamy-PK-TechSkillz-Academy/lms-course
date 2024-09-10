@@ -4,6 +4,7 @@ using LMS.Persistence;
 using LMS.Web.Models.LeaveTypes;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using System.Globalization;
 
 namespace LMS.Web.Controllers
 {
@@ -63,6 +64,11 @@ namespace LMS.Web.Controllers
             if (leaveTypeCreateVM.Name.Contains("test", StringComparison.CurrentCultureIgnoreCase))
             {
                 ModelState.AddModelError(nameof(leaveTypeCreateVM.Name), "Name cannot contain the word test");
+            }
+
+            if (CheckIfLeaveTypeNameExists(leaveTypeCreateVM.Name))
+            {
+                ModelState.AddModelError(nameof(leaveTypeCreateVM.Name), "This Leave Type already exists");
             }
 
             if (ModelState.IsValid)
@@ -178,7 +184,15 @@ namespace LMS.Web.Controllers
         private bool LeaveTypeExists(int id)
         {
             logger.LogInformation("Checking if LeaveType exists at {time}", DateTime.Now);
+
             return lmsDbContext.LeaveTypes.Any(e => e.Id == id);
+        }
+
+        private async Task<bool> CheckIfLeaveTypeNameExists(string name)
+        {
+            logger.LogInformation("Checking if LeaveType name exists at {time}", DateTime.Now);
+
+            return await lmsDbContext.LeaveTypes.AnyAsync(q => q.Name.ToLower(CultureInfo.CurrentCulture).Equals(name, StringComparison.Ordinal));
         }
     }
 }
