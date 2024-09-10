@@ -93,7 +93,9 @@ namespace LMS.Web.Controllers
             {
                 return NotFound();
             }
-            return View(leaveType);
+
+            LeaveTypeEditVM leaveTypeEditVM = mapper.Map<LeaveTypeEditVM>(leaveType);
+            return View(leaveTypeEditVM);
         }
 
         // POST: LeaveTypes/Edit/5
