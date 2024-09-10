@@ -148,14 +148,14 @@ namespace LMS.Web.Controllers
                 return NotFound();
             }
 
-            LeaveType? leaveType = await lmsDbContext.LeaveTypes
-                .FirstOrDefaultAsync(m => m.Id == id);
+            LeaveType? leaveType = await lmsDbContext.LeaveTypes.FirstOrDefaultAsync(m => m.Id == id);
             if (leaveType == null)
             {
                 return NotFound();
             }
 
-            return View(leaveType);
+            LeaveTypeReadOnlyVM leaveTypeReadOnlyVM = mapper.Map<LeaveTypeReadOnlyVM>(leaveType);
+            return View(leaveTypeReadOnlyVM);
         }
 
         // POST: LeaveTypes/Delete/5
