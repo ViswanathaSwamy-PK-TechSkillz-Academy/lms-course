@@ -9,6 +9,8 @@ namespace LMS.Web.Controllers
 {
     public class LeaveTypesController(LMSDbContext lmsDbContext, ILogger<LeaveTypesController> logger, IMapper mapper) : Controller
     {
+        private const string NameExistsValidationMessage = "This leave type already exists in the database";
+
         // GET: LeaveTypes
         public async Task<IActionResult> Index()
         {
@@ -65,6 +67,11 @@ namespace LMS.Web.Controllers
                 ModelState.AddModelError(nameof(leaveTypeCreateVM.Name), "Name cannot contain the word test");
             }
 
+            if (await CheckIfLeaveTypeNameExists(leaveTypeCreateVM.Name))
+            {
+                ModelState.AddModelError(nameof(leaveTypeCreateVM.Name), NameExistsValidationMessage);
+            }
+
             if (ModelState.IsValid)
             {
                 LeaveType leaveType = mapper.Map<LeaveType>(leaveTypeCreateVM);
@@ -112,6 +119,11 @@ namespace LMS.Web.Controllers
                 return NotFound();
             }
 
+            if (await CheckIfLeaveTypeNameExistsForEdit(leaveTypeEditVM))
+            {
+                ModelState.AddModelError(nameof(leaveTypeEditVM.Name), NameExistsValidationMessage);
+            }
+
             if (ModelState.IsValid)
             {
                 try
@@ -148,14 +160,14 @@ namespace LMS.Web.Controllers
                 return NotFound();
             }
 
-            LeaveType? leaveType = await lmsDbContext.LeaveTypes
-                .FirstOrDefaultAsync(m => m.Id == id);
+            LeaveType? leaveType = await lmsDbContext.LeaveTypes.FirstOrDefaultAsync(m => m.Id == id);
             if (leaveType == null)
             {
                 return NotFound();
             }
 
-            return View(leaveType);
+            LeaveTypeReadOnlyVM leaveTypeReadOnlyVM = mapper.Map<LeaveTypeReadOnlyVM>(leaveType);
+            return View(leaveTypeReadOnlyVM);
         }
 
         // POST: LeaveTypes/Delete/5
@@ -178,7 +190,24 @@ namespace LMS.Web.Controllers
         private bool LeaveTypeExists(int id)
         {
             logger.LogInformation("Checking if LeaveType exists at {time}", DateTime.Now);
+
             return lmsDbContext.LeaveTypes.Any(e => e.Id == id);
+        }
+
+        private async Task<bool> CheckIfLeaveTypeNameExists(string name)
+        {
+            logger.LogInformation("Checking if LeaveType name exists at {time}", DateTime.Now);
+
+            return await lmsDbContext.LeaveTypes.AnyAsync(q => q.Name.ToLower().Equals(name.ToLower()));
+        }
+
+        private async Task<bool> CheckIfLeaveTypeNameExistsForEdit(LeaveTypeEditVM leaveTypeEditVM)
+        {
+            logger.LogInformation("Checking if LeaveType name exists for edit at {time}", DateTime.Now);
+
+            return await lmsDbContext.LeaveTypes.AnyAsync(q =>
+                q.Name.ToLower().Equals(leaveTypeEditVM.Name.ToLower())
+                && q.Id != leaveTypeEditVM.Id);
         }
     }
 }
