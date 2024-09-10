@@ -66,7 +66,7 @@ namespace LMS.Web.Controllers
                 ModelState.AddModelError(nameof(leaveTypeCreateVM.Name), "Name cannot contain the word test");
             }
 
-            if (CheckIfLeaveTypeNameExists(leaveTypeCreateVM.Name))
+            if (await CheckIfLeaveTypeNameExists(leaveTypeCreateVM.Name))
             {
                 ModelState.AddModelError(nameof(leaveTypeCreateVM.Name), "This Leave Type already exists");
             }
