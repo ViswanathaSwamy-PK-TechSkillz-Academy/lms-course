@@ -3,13 +3,13 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace LMS.Web.Controllers;
 
-public class TestController(ILogger<TestController> _logger) : Controller
+public class TestController(ILogger<TestController> logger) : Controller
 {
 
     public IActionResult Index()
     {
 
-        _logger.LogInformation("Test page visited at {time}", DateTime.Now);
+        logger.LogInformation("Test page visited at {time}", DateTime.Now);
 
         TestViewModel data = new()
         {
@@ -17,7 +17,7 @@ public class TestController(ILogger<TestController> _logger) : Controller
             DateOfBirth = new DateTime(1954, 12, 01)
         };
 
-        _logger.LogInformation("Returning data from Test page");
+        logger.LogInformation("Returning data from Test page");
 
         return View(data);
     }

@@ -7,16 +7,16 @@ using Microsoft.EntityFrameworkCore;
 
 namespace LMS.Web.Controllers
 {
-    public class LeaveTypesController(LMSDbContext _context, ILogger<LeaveTypesController> _logger, IMapper _mapper) : Controller
+    public class LeaveTypesController(LMSDbContext lmsDbContext, ILogger<LeaveTypesController> logger, IMapper mapper) : Controller
     {
         // GET: LeaveTypes
         public async Task<IActionResult> Index()
         {
-            _logger.LogInformation("LeaveTypes page visited at {time}", DateTime.Now);
+            logger.LogInformation("LeaveTypes page visited at {time}", DateTime.Now);
 
-            List<LeaveType> leaveTypes = await _context.LeaveTypes.ToListAsync();
+            List<LeaveType> leaveTypes = await lmsDbContext.LeaveTypes.ToListAsync();
 
-            IEnumerable<LeaveTypeReadOnlyVM> leaveTypeVMs = _mapper.Map<IEnumerable<LeaveTypeReadOnlyVM>>(leaveTypes);
+            IEnumerable<LeaveTypeReadOnlyVM> leaveTypeVMs = mapper.Map<IEnumerable<LeaveTypeReadOnlyVM>>(leaveTypes);
 
             return View(leaveTypeVMs);
         }
@@ -24,20 +24,20 @@ namespace LMS.Web.Controllers
         // GET: LeaveTypes/Details/5
         public async Task<IActionResult> Details(int? id)
         {
-            _logger.LogInformation("LeaveType details page visited at {time}", DateTime.Now);
+            logger.LogInformation("LeaveType details page visited at {time}", DateTime.Now);
 
             if (id == null)
             {
                 return NotFound();
             }
 
-            LeaveType? leaveType = await _context.LeaveTypes.FirstOrDefaultAsync(m => m.Id == id);
+            LeaveType? leaveType = await lmsDbContext.LeaveTypes.FirstOrDefaultAsync(m => m.Id == id);
             if (leaveType == null)
             {
                 return NotFound();
             }
 
-            LeaveTypeReadOnlyVM leaveTypeReadOnlyVM = _mapper.Map<LeaveTypeReadOnlyVM>(leaveType);
+            LeaveTypeReadOnlyVM leaveTypeReadOnlyVM = mapper.Map<LeaveTypeReadOnlyVM>(leaveType);
 
             return View(leaveTypeReadOnlyVM);
         }
@@ -45,7 +45,7 @@ namespace LMS.Web.Controllers
         // GET: LeaveTypes/Create
         public IActionResult Create()
         {
-            _logger.LogInformation("LeaveType create page visited at {time}", DateTime.Now);
+            logger.LogInformation("LeaveType create page visited at {time}", DateTime.Now);
 
             return View();
         }
@@ -57,14 +57,14 @@ namespace LMS.Web.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("Name,NumberOfDays")] LeaveTypeCreateVM leaveTypeCreateVM)
         {
-            _logger.LogInformation("LeaveType created at {time}", DateTime.Now);
+            logger.LogInformation("LeaveType created at {time}", DateTime.Now);
 
             if (ModelState.IsValid)
             {
-                LeaveType leaveType = _mapper.Map<LeaveType>(leaveTypeCreateVM);
+                LeaveType leaveType = mapper.Map<LeaveType>(leaveTypeCreateVM);
 
-                _context.Add(leaveType);
-                await _context.SaveChangesAsync();
+                lmsDbContext.Add(leaveType);
+                await lmsDbContext.SaveChangesAsync();
 
                 return RedirectToAction(nameof(Index));
             }
@@ -75,14 +75,14 @@ namespace LMS.Web.Controllers
         // GET: LeaveTypes/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
-            _logger.LogInformation("LeaveType edit page visited at {time}", DateTime.Now);
+            logger.LogInformation("LeaveType edit page visited at {time}", DateTime.Now);
 
             if (id == null)
             {
                 return NotFound();
             }
 
-            LeaveType? leaveType = await _context.LeaveTypes.FindAsync(id);
+            LeaveType? leaveType = await lmsDbContext.LeaveTypes.FindAsync(id);
             if (leaveType == null)
             {
                 return NotFound();
@@ -97,7 +97,7 @@ namespace LMS.Web.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, [Bind("Name,NumberOfDays,Id")] LeaveType leaveType)
         {
-            _logger.LogInformation("LeaveType edited at {time}", DateTime.Now);
+            logger.LogInformation("LeaveType edited at {time}", DateTime.Now);
 
             if (id != leaveType.Id)
             {
@@ -108,8 +108,8 @@ namespace LMS.Web.Controllers
             {
                 try
                 {
-                    _context.Update(leaveType);
-                    await _context.SaveChangesAsync();
+                    lmsDbContext.Update(leaveType);
+                    await lmsDbContext.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
@@ -130,14 +130,14 @@ namespace LMS.Web.Controllers
         // GET: LeaveTypes/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
-            _logger.LogInformation("LeaveType delete page visited at {time}", DateTime.Now);
+            logger.LogInformation("LeaveType delete page visited at {time}", DateTime.Now);
 
             if (id == null)
             {
                 return NotFound();
             }
 
-            LeaveType? leaveType = await _context.LeaveTypes
+            LeaveType? leaveType = await lmsDbContext.LeaveTypes
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (leaveType == null)
             {
@@ -152,22 +152,22 @@ namespace LMS.Web.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            _logger.LogInformation("LeaveType deleted at {time}", DateTime.Now);
+            logger.LogInformation("LeaveType deleted at {time}", DateTime.Now);
 
-            LeaveType? leaveType = await _context.LeaveTypes.FindAsync(id);
+            LeaveType? leaveType = await lmsDbContext.LeaveTypes.FindAsync(id);
             if (leaveType != null)
             {
-                _context.LeaveTypes.Remove(leaveType);
+                lmsDbContext.LeaveTypes.Remove(leaveType);
             }
 
-            await _context.SaveChangesAsync();
+            await lmsDbContext.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
         private bool LeaveTypeExists(int id)
         {
-            _logger.LogInformation("Checking if LeaveType exists at {time}", DateTime.Now);
-            return _context.LeaveTypes.Any(e => e.Id == id);
+            logger.LogInformation("Checking if LeaveType exists at {time}", DateTime.Now);
+            return lmsDbContext.LeaveTypes.Any(e => e.Id == id);
         }
     }
 }
