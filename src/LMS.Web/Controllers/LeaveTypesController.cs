@@ -199,7 +199,7 @@ namespace LMS.Web.Controllers
         {
             logger.LogInformation("Checking if LeaveType name exists at {time}", DateTime.Now);
 
-            return await lmsDbContext.LeaveTypes.AnyAsync(q => q.Name.ToLower(CultureInfo.CurrentCulture).Equals(name, StringComparison.Ordinal));
+            return await lmsDbContext.LeaveTypes.AnyAsync(q => q.Name.ToLower().Equals(name.ToLower()));
         }
     }
 }
