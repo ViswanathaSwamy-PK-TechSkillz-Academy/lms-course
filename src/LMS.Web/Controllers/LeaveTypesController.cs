@@ -93,7 +93,9 @@ namespace LMS.Web.Controllers
             {
                 return NotFound();
             }
-            return View(leaveType);
+
+            LeaveTypeEditVM leaveTypeEditVM = mapper.Map<LeaveTypeEditVM>(leaveType);
+            return View(leaveTypeEditVM);
         }
 
         // POST: LeaveTypes/Edit/5
@@ -101,11 +103,11 @@ namespace LMS.Web.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Name,NumberOfDays,Id")] LeaveType leaveType)
+        public async Task<IActionResult> Edit(int id, [Bind("Name,NumberOfDays,Id")] LeaveTypeEditVM leaveTypeEditVM)
         {
             logger.LogInformation("LeaveType edited at {time}", DateTime.Now);
 
-            if (id != leaveType.Id)
+            if (id != leaveTypeEditVM.Id)
             {
                 return NotFound();
             }
@@ -114,12 +116,14 @@ namespace LMS.Web.Controllers
             {
                 try
                 {
+                    LeaveType leaveType = mapper.Map<LeaveType>(leaveTypeEditVM);
+
                     lmsDbContext.Update(leaveType);
                     await lmsDbContext.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!LeaveTypeExists(leaveType.Id))
+                    if (!LeaveTypeExists(leaveTypeEditVM.Id))
                     {
                         return NotFound();
                     }
@@ -130,7 +134,8 @@ namespace LMS.Web.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            return View(leaveType);
+
+            return View(leaveTypeEditVM);
         }
 
         // GET: LeaveTypes/Delete/5
