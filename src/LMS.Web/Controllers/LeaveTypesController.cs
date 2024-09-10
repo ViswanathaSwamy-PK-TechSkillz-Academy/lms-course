@@ -202,11 +202,11 @@ namespace LMS.Web.Controllers
             return await lmsDbContext.LeaveTypes.AnyAsync(q => q.Name.ToLower().Equals(name.ToLower()));
         }
 
-        private async Task<bool> CheckIfLeaveTypeNameExistsForEdit(LeaveTypeEditVM leaveTypeEdit)
+        private async Task<bool> CheckIfLeaveTypeNameExistsForEdit(LeaveTypeEditVM leaveTypeEditVM)
         {
             logger.LogInformation("Checking if LeaveType name exists for edit at {time}", DateTime.Now);
 
-            return await lmsDbContext.LeaveTypes.AnyAsync(q => q.Name.ToLower().Equals(leaveTypeEdit.Name.ToLower()) && q.Id != leaveTypeEdit.Id);
+            return await lmsDbContext.LeaveTypes.AnyAsync(q => q.Name.ToLower().Equals(leaveTypeEditVM.Name.ToLower()) && q.Id != leaveTypeEditVM.Id);
         }
     }
 }
