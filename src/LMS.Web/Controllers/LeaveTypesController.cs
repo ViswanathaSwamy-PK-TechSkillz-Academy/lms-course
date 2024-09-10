@@ -206,7 +206,9 @@ namespace LMS.Web.Controllers
         {
             logger.LogInformation("Checking if LeaveType name exists for edit at {time}", DateTime.Now);
 
-            return await lmsDbContext.LeaveTypes.AnyAsync(q => q.Name.ToLower().Equals(leaveTypeEditVM.Name.ToLower()) && q.Id != leaveTypeEditVM.Id);
+            return await lmsDbContext.LeaveTypes.AnyAsync(q =>
+                q.Name.ToLower().Equals(leaveTypeEditVM.Name.ToLower())
+                && q.Id != leaveTypeEditVM.Id);
         }
     }
 }
