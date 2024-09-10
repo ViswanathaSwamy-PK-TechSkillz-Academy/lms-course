@@ -10,6 +10,8 @@ namespace LMS.Web.Controllers
 {
     public class LeaveTypesController(LMSDbContext lmsDbContext, ILogger<LeaveTypesController> logger, IMapper mapper) : Controller
     {
+        private const string NameExistsValidationMessage = "This leave type already exists in the database";
+
         // GET: LeaveTypes
         public async Task<IActionResult> Index()
         {
@@ -116,6 +118,11 @@ namespace LMS.Web.Controllers
             if (id != leaveTypeEditVM.Id)
             {
                 return NotFound();
+            }
+
+            if (await CheckIfLeaveTypeNameExists(leaveTypeEditVM.Name))
+            {
+                ModelState.AddModelError(nameof(leaveTypeEditVM.Name), "This Leave Type already exists");
             }
 
             if (ModelState.IsValid)
