@@ -59,7 +59,7 @@ namespace LMS.Web.Controllers
         {
             logger.LogInformation("LeaveType created at {time}", DateTime.Now);
 
-            if (leaveTypeCreateVM.Name.Contains("test"))
+            if (leaveTypeCreateVM.Name.Contains("test", StringComparison.CurrentCultureIgnoreCase))
             {
                 ModelState.AddModelError(nameof(leaveTypeCreateVM.Name), "Name cannot contain the word test");
             }
