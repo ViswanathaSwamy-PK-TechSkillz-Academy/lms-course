@@ -70,7 +70,7 @@ namespace LMS.Web.Controllers
 
             if (await CheckIfLeaveTypeNameExists(leaveTypeCreateVM.Name))
             {
-                ModelState.AddModelError(nameof(leaveTypeCreateVM.Name), "This Leave Type already exists");
+                ModelState.AddModelError(nameof(leaveTypeCreateVM.Name), NameExistsValidationMessage);
             }
 
             if (ModelState.IsValid)
@@ -120,9 +120,9 @@ namespace LMS.Web.Controllers
                 return NotFound();
             }
 
-            if (await CheckIfLeaveTypeNameExists(leaveTypeEditVM.Name))
+            if (await CheckIfLeaveTypeNameExistsForEdit(leaveTypeEditVM))
             {
-                ModelState.AddModelError(nameof(leaveTypeEditVM.Name), "This Leave Type already exists");
+                ModelState.AddModelError(nameof(leaveTypeEditVM.Name), NameExistsValidationMessage);
             }
 
             if (ModelState.IsValid)
