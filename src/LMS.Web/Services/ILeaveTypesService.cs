@@ -8,7 +8,7 @@ public interface ILeaveTypesService
 
     Task<bool> CheckIfLeaveTypeNameExistsForEdit(LeaveTypeEditVM leaveTypeEdit);
 
-    Task Create(LeaveTypeCreateVM model);
+    Task CreateAsync(LeaveTypeCreateVM model);
 
     Task<bool> DaysExceedMaximum(int leaveTypeId, int days);
 

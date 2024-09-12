@@ -59,7 +59,7 @@ public class LeaveTypesService(LMSDbContext lmsDbContext, ILogger<LeaveTypesCont
         await lmsDbContext.SaveChangesAsync();
     }
 
-    public async Task Create(LeaveTypeCreateVM model)
+    public async Task CreateAsync(LeaveTypeCreateVM model)
     {
         logger.LogInformation("LeaveTypesService::Create() visited at {time}", DateTime.Now);
 

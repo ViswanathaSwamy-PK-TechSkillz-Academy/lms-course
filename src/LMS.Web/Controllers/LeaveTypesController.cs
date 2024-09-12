@@ -59,17 +59,14 @@ namespace LMS.Web.Controllers
                 ModelState.AddModelError(nameof(leaveTypeCreateVM.Name), "Name cannot contain the word test");
             }
 
-            if (await CheckIfLeaveTypeNameExists(leaveTypeCreateVM.Name))
+            if (await leaveTypesService.CheckIfLeaveTypeNameExists(leaveTypeCreateVM.Name))
             {
-                ModelState.AddModelError(nameof(leaveTypeCreateVM.Name), NameExistsValidationMessage);
+                ModelState.AddModelError(nameof(leaveTypeCreateVM.Name), "Name cannot contain the word test");
             }
 
             if (ModelState.IsValid)
             {
-                LeaveType leaveType = mapper.Map<LeaveType>(leaveTypeCreateVM);
-
-                lmsDbContext.Add(leaveType);
-                await lmsDbContext.SaveChangesAsync();
+                await leaveTypesService.CreateAsync(leaveTypeCreateVM);
 
                 return RedirectToAction(nameof(Index));
             }
@@ -179,27 +176,5 @@ namespace LMS.Web.Controllers
             return RedirectToAction(nameof(Index));
         }
 
-        private bool LeaveTypeExists(int id)
-        {
-            logger.LogInformation("Checking if LeaveType exists at {time}", DateTime.Now);
-
-            return lmsDbContext.LeaveTypes.Any(e => e.Id == id);
-        }
-
-        private async Task<bool> CheckIfLeaveTypeNameExists(string name)
-        {
-            logger.LogInformation("Checking if LeaveType name exists at {time}", DateTime.Now);
-
-            return await lmsDbContext.LeaveTypes.AnyAsync(q => q.Name.ToLower().Equals(name.ToLower()));
-        }
-
-        private async Task<bool> CheckIfLeaveTypeNameExistsForEdit(LeaveTypeEditVM leaveTypeEditVM)
-        {
-            logger.LogInformation("Checking if LeaveType name exists for edit at {time}", DateTime.Now);
-
-            return await lmsDbContext.LeaveTypes.AnyAsync(q =>
-                q.Name.ToLower().Equals(leaveTypeEditVM.Name.ToLower())
-                && q.Id != leaveTypeEditVM.Id);
-        }
     }
 }
