@@ -23,7 +23,7 @@ public class LeaveTypesService(LMSDbContext lmsDbContext, ILogger<LeaveTypesCont
 
     public async Task<T?> GetAsync<T>(int id) where T : class
     {
-        logger.LogInformation("LeaveTypesService::GetAsync<T>(int id) visited at {time}", DateTime.Now);
+        logger.LogInformation("LeaveTypesService::GetAsync<T>() visited at {time}", DateTime.Now);
 
         LeaveType? leaveType = await lmsDbContext.LeaveTypes.FirstOrDefaultAsync(x => x.Id == id);
         if (leaveType == null)
@@ -38,7 +38,7 @@ public class LeaveTypesService(LMSDbContext lmsDbContext, ILogger<LeaveTypesCont
 
     public async Task RemoveAsync(int id)
     {
-        logger.LogInformation("LeaveTypesService::RemoveAsync(int id) visited at {time}", DateTime.Now);
+        logger.LogInformation("LeaveTypesService::RemoveAsync() visited at {time}", DateTime.Now);
 
         LeaveType? leaveType = await lmsDbContext.LeaveTypes.FirstOrDefaultAsync(x => x.Id == id);
         if (leaveType != null)
@@ -51,11 +51,21 @@ public class LeaveTypesService(LMSDbContext lmsDbContext, ILogger<LeaveTypesCont
 
     public async Task EditAsync(LeaveTypeEditVM model)
     {
-        logger.LogInformation("LeaveTypesService::EditAsync(LeaveTypeEditVM model) visited at {time}", DateTime.Now);
+        logger.LogInformation("LeaveTypesService::EditAsync() visited at {time}", DateTime.Now);
 
         LeaveType? leaveType = mapper.Map<LeaveType>(model);
 
         lmsDbContext.Update(leaveType);
+        await lmsDbContext.SaveChangesAsync();
+    }
+
+    public async Task Create(LeaveTypeCreateVM model)
+    {
+        logger.LogInformation("LeaveTypesService::Create() visited at {time}", DateTime.Now);
+
+        var leaveType = mapper.Map<LeaveType>(model);
+
+        lmsDbContext.Add(leaveType);
         await lmsDbContext.SaveChangesAsync();
     }
 
