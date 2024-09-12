@@ -10,9 +10,9 @@ namespace LMS.Web.Services;
 public class LeaveTypesService(LMSDbContext lmsDbContext, ILogger<LeaveTypesController> logger, IMapper mapper)
 {
 
-    public async Task<IEnumerable<LeaveTypeReadOnlyVM>> GetAll()
+    public async Task<IEnumerable<LeaveTypeReadOnlyVM>> GetAllAsync()
     {
-        logger.LogInformation("LeaveTypesService::GetAll() visited at {time}", DateTime.Now);
+        logger.LogInformation("LeaveTypesService::GetAllAsync() visited at {time}", DateTime.Now);
 
         List<LeaveType> leaveTypes = await lmsDbContext.LeaveTypes.ToListAsync();
 
