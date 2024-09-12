@@ -1,13 +1,13 @@
 ﻿using AutoMapper;
 using LMS.Data.Entities;
-using LMS.Persistence;
 using LMS.Web.Models.LeaveTypes;
+using LMS.Web.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
 namespace LMS.Web.Controllers
 {
-    public class LeaveTypesController(LMSDbContext lmsDbContext, ILogger<LeaveTypesController> logger, IMapper mapper) : Controller
+    public class LeaveTypesController(ILeaveTypesService leaveTypesService, ILogger<LeaveTypesController> logger) : Controller
     {
         private const string NameExistsValidationMessage = "This leave type already exists in the database";
 
@@ -16,9 +16,7 @@ namespace LMS.Web.Controllers
         {
             logger.LogInformation("LeaveTypes page visited at {time}", DateTime.Now);
 
-            List<LeaveType> leaveTypes = await lmsDbContext.LeaveTypes.ToListAsync();
-
-            IEnumerable<LeaveTypeReadOnlyVM> leaveTypeVMs = mapper.Map<IEnumerable<LeaveTypeReadOnlyVM>>(leaveTypes);
+            IEnumerable<LeaveTypeReadOnlyVM> leaveTypeVMs = await leaveTypesService.GetAllAsync();
 
             return View(leaveTypeVMs);
         }
@@ -33,13 +31,7 @@ namespace LMS.Web.Controllers
                 return NotFound();
             }
 
-            LeaveType? leaveType = await lmsDbContext.LeaveTypes.FirstOrDefaultAsync(m => m.Id == id);
-            if (leaveType == null)
-            {
-                return NotFound();
-            }
-
-            LeaveTypeReadOnlyVM leaveTypeReadOnlyVM = mapper.Map<LeaveTypeReadOnlyVM>(leaveType);
+            LeaveTypeReadOnlyVM? leaveTypeReadOnlyVM = await leaveTypesService.GetAsync<LeaveTypeReadOnlyVM>(id.Value);
 
             return View(leaveTypeReadOnlyVM);
         }
