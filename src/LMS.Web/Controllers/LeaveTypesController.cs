@@ -1,6 +1,4 @@
-﻿using AutoMapper;
-using LMS.Data.Entities;
-using LMS.Web.Models.LeaveTypes;
+﻿using LMS.Web.Models.LeaveTypes;
 using LMS.Web.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -145,13 +143,12 @@ namespace LMS.Web.Controllers
                 return NotFound();
             }
 
-            LeaveType? leaveType = await lmsDbContext.LeaveTypes.FirstOrDefaultAsync(m => m.Id == id);
-            if (leaveType == null)
+            LeaveTypeReadOnlyVM? leaveTypeReadOnlyVM = await leaveTypesService.GetAsync<LeaveTypeReadOnlyVM>(id.Value);
+            if (leaveTypeReadOnlyVM == null)
             {
                 return NotFound();
             }
 
-            LeaveTypeReadOnlyVM leaveTypeReadOnlyVM = mapper.Map<LeaveTypeReadOnlyVM>(leaveType);
             return View(leaveTypeReadOnlyVM);
         }
 
@@ -162,13 +159,8 @@ namespace LMS.Web.Controllers
         {
             logger.LogInformation("LeaveType deleted at {time}", DateTime.Now);
 
-            LeaveType? leaveType = await lmsDbContext.LeaveTypes.FindAsync(id);
-            if (leaveType != null)
-            {
-                lmsDbContext.LeaveTypes.Remove(leaveType);
-            }
+            await leaveTypesService.RemoveAsync(id);
 
-            await lmsDbContext.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
