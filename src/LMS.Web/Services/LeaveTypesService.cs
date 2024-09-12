@@ -7,7 +7,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace LMS.Web.Services;
 
-public class LeaveTypesService(LMSDbContext lmsDbContext, ILogger<LeaveTypesController> logger, IMapper mapper)
+public class LeaveTypesService(LMSDbContext lmsDbContext, ILogger<LeaveTypesController> logger, IMapper mapper) : ILeaveTypesService
 {
 
     public async Task<IEnumerable<LeaveTypeReadOnlyVM>> GetAllAsync()
