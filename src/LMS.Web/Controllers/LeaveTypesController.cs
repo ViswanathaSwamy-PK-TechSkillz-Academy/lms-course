@@ -1,13 +1,11 @@
-﻿using AutoMapper;
-using LMS.Data.Entities;
-using LMS.Persistence;
-using LMS.Web.Models.LeaveTypes;
+﻿using LMS.Web.Models.LeaveTypes;
+using LMS.Web.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
 namespace LMS.Web.Controllers
 {
-    public class LeaveTypesController(LMSDbContext lmsDbContext, ILogger<LeaveTypesController> logger, IMapper mapper) : Controller
+    public class LeaveTypesController(ILeaveTypesService leaveTypesService, ILogger<LeaveTypesController> logger) : Controller
     {
         private const string NameExistsValidationMessage = "This leave type already exists in the database";
 
@@ -16,9 +14,7 @@ namespace LMS.Web.Controllers
         {
             logger.LogInformation("LeaveTypes page visited at {time}", DateTime.Now);
 
-            List<LeaveType> leaveTypes = await lmsDbContext.LeaveTypes.ToListAsync();
-
-            IEnumerable<LeaveTypeReadOnlyVM> leaveTypeVMs = mapper.Map<IEnumerable<LeaveTypeReadOnlyVM>>(leaveTypes);
+            IEnumerable<LeaveTypeReadOnlyVM> leaveTypeVMs = await leaveTypesService.GetAllAsync();
 
             return View(leaveTypeVMs);
         }
@@ -33,13 +29,7 @@ namespace LMS.Web.Controllers
                 return NotFound();
             }
 
-            LeaveType? leaveType = await lmsDbContext.LeaveTypes.FirstOrDefaultAsync(m => m.Id == id);
-            if (leaveType == null)
-            {
-                return NotFound();
-            }
-
-            LeaveTypeReadOnlyVM leaveTypeReadOnlyVM = mapper.Map<LeaveTypeReadOnlyVM>(leaveType);
+            LeaveTypeReadOnlyVM? leaveTypeReadOnlyVM = await leaveTypesService.GetAsync<LeaveTypeReadOnlyVM>(id.Value);
 
             return View(leaveTypeReadOnlyVM);
         }
@@ -67,17 +57,14 @@ namespace LMS.Web.Controllers
                 ModelState.AddModelError(nameof(leaveTypeCreateVM.Name), "Name cannot contain the word test");
             }
 
-            if (await CheckIfLeaveTypeNameExists(leaveTypeCreateVM.Name))
+            if (await leaveTypesService.CheckIfLeaveTypeNameExists(leaveTypeCreateVM.Name))
             {
-                ModelState.AddModelError(nameof(leaveTypeCreateVM.Name), NameExistsValidationMessage);
+                ModelState.AddModelError(nameof(leaveTypeCreateVM.Name), "Name cannot contain the word test");
             }
 
             if (ModelState.IsValid)
             {
-                LeaveType leaveType = mapper.Map<LeaveType>(leaveTypeCreateVM);
-
-                lmsDbContext.Add(leaveType);
-                await lmsDbContext.SaveChangesAsync();
+                await leaveTypesService.CreateAsync(leaveTypeCreateVM);
 
                 return RedirectToAction(nameof(Index));
             }
@@ -95,13 +82,12 @@ namespace LMS.Web.Controllers
                 return NotFound();
             }
 
-            LeaveType? leaveType = await lmsDbContext.LeaveTypes.FindAsync(id);
-            if (leaveType == null)
+            LeaveTypeEditVM? leaveTypeEditVM = await leaveTypesService.GetAsync<LeaveTypeEditVM>(id.Value);
+            if (leaveTypeEditVM == null)
             {
                 return NotFound();
             }
 
-            LeaveTypeEditVM leaveTypeEditVM = mapper.Map<LeaveTypeEditVM>(leaveType);
             return View(leaveTypeEditVM);
         }
 
@@ -119,7 +105,7 @@ namespace LMS.Web.Controllers
                 return NotFound();
             }
 
-            if (await CheckIfLeaveTypeNameExistsForEdit(leaveTypeEditVM))
+            if (await leaveTypesService.CheckIfLeaveTypeNameExistsForEdit(leaveTypeEditVM))
             {
                 ModelState.AddModelError(nameof(leaveTypeEditVM.Name), NameExistsValidationMessage);
             }
@@ -128,14 +114,11 @@ namespace LMS.Web.Controllers
             {
                 try
                 {
-                    LeaveType leaveType = mapper.Map<LeaveType>(leaveTypeEditVM);
-
-                    lmsDbContext.Update(leaveType);
-                    await lmsDbContext.SaveChangesAsync();
+                    await leaveTypesService.EditAsync(leaveTypeEditVM);
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!LeaveTypeExists(leaveTypeEditVM.Id))
+                    if (!leaveTypesService.LeaveTypeExists(leaveTypeEditVM.Id))
                     {
                         return NotFound();
                     }
@@ -160,13 +143,12 @@ namespace LMS.Web.Controllers
                 return NotFound();
             }
 
-            LeaveType? leaveType = await lmsDbContext.LeaveTypes.FirstOrDefaultAsync(m => m.Id == id);
-            if (leaveType == null)
+            LeaveTypeReadOnlyVM? leaveTypeReadOnlyVM = await leaveTypesService.GetAsync<LeaveTypeReadOnlyVM>(id.Value);
+            if (leaveTypeReadOnlyVM == null)
             {
                 return NotFound();
             }
 
-            LeaveTypeReadOnlyVM leaveTypeReadOnlyVM = mapper.Map<LeaveTypeReadOnlyVM>(leaveType);
             return View(leaveTypeReadOnlyVM);
         }
 
@@ -177,37 +159,10 @@ namespace LMS.Web.Controllers
         {
             logger.LogInformation("LeaveType deleted at {time}", DateTime.Now);
 
-            LeaveType? leaveType = await lmsDbContext.LeaveTypes.FindAsync(id);
-            if (leaveType != null)
-            {
-                lmsDbContext.LeaveTypes.Remove(leaveType);
-            }
+            await leaveTypesService.RemoveAsync(id);
 
-            await lmsDbContext.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
-        private bool LeaveTypeExists(int id)
-        {
-            logger.LogInformation("Checking if LeaveType exists at {time}", DateTime.Now);
-
-            return lmsDbContext.LeaveTypes.Any(e => e.Id == id);
-        }
-
-        private async Task<bool> CheckIfLeaveTypeNameExists(string name)
-        {
-            logger.LogInformation("Checking if LeaveType name exists at {time}", DateTime.Now);
-
-            return await lmsDbContext.LeaveTypes.AnyAsync(q => q.Name.ToLower().Equals(name.ToLower()));
-        }
-
-        private async Task<bool> CheckIfLeaveTypeNameExistsForEdit(LeaveTypeEditVM leaveTypeEditVM)
-        {
-            logger.LogInformation("Checking if LeaveType name exists for edit at {time}", DateTime.Now);
-
-            return await lmsDbContext.LeaveTypes.AnyAsync(q =>
-                q.Name.ToLower().Equals(leaveTypeEditVM.Name.ToLower())
-                && q.Id != leaveTypeEditVM.Id);
-        }
     }
 }
