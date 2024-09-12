@@ -49,4 +49,34 @@ public class LeaveTypesService(LMSDbContext lmsDbContext, ILogger<LeaveTypesCont
         }
     }
 
+    public bool LeaveTypeExists(int id)
+    {
+        logger.LogInformation("LeaveTypesService::LeaveTypeExists(int id) visited at {time}", DateTime.Now);
+
+        return lmsDbContext.LeaveTypes.Any(e => e.Id == id);
+    }
+
+    public async Task<bool> CheckIfLeaveTypeNameExists(string name)
+    {
+        logger.LogInformation("LeaveTypesService::CheckIfLeaveTypeNameExists(string name) visited at {time}", DateTime.Now);
+
+        return await lmsDbContext.LeaveTypes.AnyAsync(q => q.Name.ToLower().Equals(name.ToLower()));
+    }
+
+    public async Task<bool> CheckIfLeaveTypeNameExistsForEdit(LeaveTypeEditVM leaveTypeEdit)
+    {
+        logger.LogInformation("LeaveTypesService::CheckIfLeaveTypeNameExistsForEdit(LeaveTypeEditVM leaveTypeEdit) visited at {time}", DateTime.Now);
+
+        return await lmsDbContext.LeaveTypes.AnyAsync(q => q.Name.ToLower().Equals(leaveTypeEdit.Name.ToLower()) && q.Id != leaveTypeEdit.Id);
+    }
+
+    public async Task<bool> DaysExceedMaximum(int leaveTypeId, int days)
+    {
+        logger.LogInformation("LeaveTypesService::DaysExceedMaximum(int leaveTypeId, int days) visited at {time}", DateTime.Now);
+
+        LeaveType? leaveType = await lmsDbContext.LeaveTypes.FindAsync(leaveTypeId);
+
+        return leaveType?.NumberOfDays < days;
+    }
+
 }
