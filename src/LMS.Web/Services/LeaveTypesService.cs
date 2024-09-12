@@ -49,6 +49,16 @@ public class LeaveTypesService(LMSDbContext lmsDbContext, ILogger<LeaveTypesCont
         }
     }
 
+    public async Task EditAsync(LeaveTypeEditVM model)
+    {
+        logger.LogInformation("LeaveTypesService::EditAsync(LeaveTypeEditVM model) visited at {time}", DateTime.Now);
+
+        LeaveType? leaveType = mapper.Map<LeaveType>(model);
+
+        lmsDbContext.Update(leaveType);
+        await lmsDbContext.SaveChangesAsync();
+    }
+
     public bool LeaveTypeExists(int id)
     {
         logger.LogInformation("LeaveTypesService::LeaveTypeExists(int id) visited at {time}", DateTime.Now);
