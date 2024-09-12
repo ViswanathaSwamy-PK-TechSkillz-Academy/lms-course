@@ -107,7 +107,7 @@ namespace LMS.Web.Controllers
                 return NotFound();
             }
 
-            if (await CheckIfLeaveTypeNameExistsForEdit(leaveTypeEditVM))
+            if (await leaveTypesService.CheckIfLeaveTypeNameExistsForEdit(leaveTypeEditVM))
             {
                 ModelState.AddModelError(nameof(leaveTypeEditVM.Name), NameExistsValidationMessage);
             }
@@ -116,14 +116,11 @@ namespace LMS.Web.Controllers
             {
                 try
                 {
-                    LeaveType leaveType = mapper.Map<LeaveType>(leaveTypeEditVM);
-
-                    lmsDbContext.Update(leaveType);
-                    await lmsDbContext.SaveChangesAsync();
+                    await leaveTypesService.EditAsync(leaveTypeEditVM);
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!LeaveTypeExists(leaveTypeEditVM.Id))
+                    if (!leaveTypesService.LeaveTypeExists(leaveTypeEditVM.Id))
                     {
                         return NotFound();
                     }
