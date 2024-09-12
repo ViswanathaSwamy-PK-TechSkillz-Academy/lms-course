@@ -21,4 +21,32 @@ public class LeaveTypesService(LMSDbContext lmsDbContext, ILogger<LeaveTypesCont
         return leaveTypesVM;
     }
 
+    public async Task<T?> GetAsync<T>(int id) where T : class
+    {
+        logger.LogInformation("LeaveTypesService::GetAsync<T>(int id) visited at {time}", DateTime.Now);
+
+        LeaveType? leaveType = await lmsDbContext.LeaveTypes.FirstOrDefaultAsync(x => x.Id == id);
+        if (leaveType == null)
+        {
+            return null;
+        }
+
+        T? leaveTypeData = mapper.Map<T>(leaveType);
+
+        return leaveTypeData;
+    }
+
+    public async Task RemoveAsync(int id)
+    {
+        logger.LogInformation("LeaveTypesService::RemoveAsync(int id) visited at {time}", DateTime.Now);
+
+        LeaveType? leaveType = await lmsDbContext.LeaveTypes.FirstOrDefaultAsync(x => x.Id == id);
+        if (leaveType != null)
+        {
+            lmsDbContext.Remove(leaveType);
+
+            await lmsDbContext.SaveChangesAsync();
+        }
+    }
+
 }
