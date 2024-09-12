@@ -84,13 +84,12 @@ namespace LMS.Web.Controllers
                 return NotFound();
             }
 
-            LeaveType? leaveType = await lmsDbContext.LeaveTypes.FindAsync(id);
-            if (leaveType == null)
+            LeaveTypeEditVM? leaveTypeEditVM = await leaveTypesService.GetAsync<LeaveTypeEditVM>(id.Value);
+            if (leaveTypeEditVM == null)
             {
                 return NotFound();
             }
 
-            LeaveTypeEditVM leaveTypeEditVM = mapper.Map<LeaveTypeEditVM>(leaveType);
             return View(leaveTypeEditVM);
         }
 
