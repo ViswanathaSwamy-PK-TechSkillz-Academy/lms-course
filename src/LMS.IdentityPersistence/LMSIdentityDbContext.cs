@@ -46,6 +46,7 @@ public class LMSIdentityDbContext(DbContextOptions<LMSIdentityDbContext> options
                 NormalizedUserName = "ADMIN@LOCALHOST.COM",
                 UserName = "admin@localhost.com",
                 PasswordHash = passwordHasher.HashPassword(null, "Sample@123$"),
+                EmailConfirmed = true,
             }
         );
     }
