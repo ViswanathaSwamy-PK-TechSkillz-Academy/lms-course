@@ -1,5 +1,6 @@
 ﻿using LMS.Data.Entities;
 using Microsoft.EntityFrameworkCore;
+using System.Reflection;
 
 namespace LMS.Persistence;
 
@@ -13,5 +14,8 @@ public class LMSDbContext(DbContextOptions<LMSDbContext> options) : DbContext(op
 
         // Set default schema for the entire context
         modelBuilder.HasDefaultSchema("lms");
+
+        // Seeding Default Data
+        modelBuilder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());
     }
 }
