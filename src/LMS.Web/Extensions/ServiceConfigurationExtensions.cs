@@ -1,7 +1,6 @@
 ﻿using LMS.IdentityPersistence;
 using LMS.Persistence;
 using LMS.Web.Services;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using System.Reflection;
 
