@@ -45,6 +45,9 @@ public class LMSIdentityDbContext(DbContextOptions<LMSIdentityDbContext> options
             NormalizedUserName = "ADMIN@LOCALHOST.COM",
             UserName = "admin@localhost.com",
             EmailConfirmed = true,
+            FirstName = "Admin",
+            LastName = "User",
+            DateOfBirth = new DateOnly(1980, 1, 1)
         };
 
         // Hash the password for the admin user
