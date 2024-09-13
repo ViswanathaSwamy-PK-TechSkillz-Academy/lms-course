@@ -37,18 +37,20 @@ public class LMSIdentityDbContext(DbContextOptions<LMSIdentityDbContext> options
 
         PasswordHasher<IdentityUser> passwordHasher = new();
 
-        _ = modelBuilder.Entity<IdentityUser>().HasData(
-            new IdentityUser
-            {
-                Id = "408aa945-3d84-4421-8342-7269ec64d949",
-                Email = "admin@localhost.com",
-                NormalizedEmail = "ADMIN@LOCALHOST.COM",
-                NormalizedUserName = "ADMIN@LOCALHOST.COM",
-                UserName = "admin@localhost.com",
-                PasswordHash = passwordHasher.HashPassword(null, "Sample@123$"),
-                EmailConfirmed = true,
-            }
-        );
+        IdentityUser adminUser = new()
+        {
+            Id = "408aa945-3d84-4421-8342-7269ec64d949",
+            Email = "admin@localhost.com",
+            NormalizedEmail = "ADMIN@LOCALHOST.COM",
+            NormalizedUserName = "ADMIN@LOCALHOST.COM",
+            UserName = "admin@localhost.com",
+            EmailConfirmed = true,
+        };
+
+        // Hash the password for the admin user
+        adminUser.PasswordHash = passwordHasher.HashPassword(adminUser, "Sample@123$");
+
+        _ = modelBuilder.Entity<IdentityUser>().HasData(adminUser);
 
         _ = modelBuilder.Entity<IdentityUserRole<string>>().HasData(
                 new IdentityUserRole<string>

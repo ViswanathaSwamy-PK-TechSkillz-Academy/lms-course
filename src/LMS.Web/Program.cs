@@ -1,5 +1,5 @@
-using LMS.Web.Extensions;
 using LMS.IdentityPersistence;
+using LMS.Web.Extensions;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
