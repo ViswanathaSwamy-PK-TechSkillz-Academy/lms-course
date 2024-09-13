@@ -35,7 +35,7 @@ public class LMSIdentityDbContext(DbContextOptions<LMSIdentityDbContext> options
             }
         );
 
-        PasswordHasher<IdentityUser> passwordHasher = new();
+        PasswordHasher<ApplicationUser> passwordHasher = new();
 
         ApplicationUser adminUser = new()
         {
