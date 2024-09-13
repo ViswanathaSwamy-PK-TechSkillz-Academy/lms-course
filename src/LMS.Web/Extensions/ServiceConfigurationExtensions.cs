@@ -23,7 +23,7 @@ public static class ServiceConfigurationExtensions
 
         _ = builder.Services.AddScoped<ILeaveTypesService, LeaveTypesService>();
 
-        _ = builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
+        _ = builder.Services.AddDefaultIdentity<ApplicationUser>(options => options.SignIn.RequireConfirmedAccount = true)
                             .AddEntityFrameworkStores<LMSIdentityDbContext>();
 
         _ = builder.Services.AddControllersWithViews();

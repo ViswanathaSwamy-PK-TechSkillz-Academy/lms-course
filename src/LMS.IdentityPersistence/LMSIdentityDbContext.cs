@@ -5,7 +5,7 @@ using System.Reflection;
 
 namespace LMS.IdentityPersistence;
 
-public class LMSIdentityDbContext(DbContextOptions<LMSIdentityDbContext> options) : IdentityDbContext(options)
+public class LMSIdentityDbContext(DbContextOptions<LMSIdentityDbContext> options) : IdentityDbContext<ApplicationUser>(options)
 {
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -37,7 +37,7 @@ public class LMSIdentityDbContext(DbContextOptions<LMSIdentityDbContext> options
 
         PasswordHasher<IdentityUser> passwordHasher = new();
 
-        IdentityUser adminUser = new()
+        ApplicationUser adminUser = new()
         {
             Id = "408aa945-3d84-4421-8342-7269ec64d949",
             Email = "admin@localhost.com",
@@ -50,7 +50,7 @@ public class LMSIdentityDbContext(DbContextOptions<LMSIdentityDbContext> options
         // Hash the password for the admin user
         adminUser.PasswordHash = passwordHasher.HashPassword(adminUser, "Sample@123$");
 
-        _ = modelBuilder.Entity<IdentityUser>().HasData(adminUser);
+        _ = modelBuilder.Entity<ApplicationUser>().HasData(adminUser);
 
         _ = modelBuilder.Entity<IdentityUserRole<string>>().HasData(
                 new IdentityUserRole<string>
