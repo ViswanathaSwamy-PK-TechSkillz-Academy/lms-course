@@ -9,6 +9,7 @@ C:\> CD D:\TSA\lms-course\src\LMS.Web
 
 # Add migration for LMSIdentityDbContext
 dotnet ef migrations add CreateIdentitySchema --project ../LMS.IdentityPersistence --startup-project . --context LMSIdentityDbContext
+dotnet ef migrations add SeedingDefaultRolesAndUser --project ../LMS.IdentityPersistence --startup-project . --context LMSIdentityDbContext
 
 # Update database for LMSIdentityDbContext
 dotnet ef database update --context LMSIdentityDbContext
