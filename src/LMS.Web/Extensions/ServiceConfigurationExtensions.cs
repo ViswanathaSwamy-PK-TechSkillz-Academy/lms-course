@@ -1,5 +1,4 @@
-﻿using LMS.IdentityPersistence;
-using LMS.Persistence;
+﻿using LMS.Persistence;
 using LMS.Web.Services;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
@@ -23,7 +22,8 @@ public static class ServiceConfigurationExtensions
 
         _ = builder.Services.AddScoped<ILeaveTypesService, LeaveTypesService>();
 
-        _ = builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
+        _ = builder.Services.AddDefaultIdentity<ApplicationUser>(options => options.SignIn.RequireConfirmedAccount = true)
+                            .AddRoles<IdentityRole>()
                             .AddEntityFrameworkStores<LMSIdentityDbContext>();
 
         _ = builder.Services.AddControllersWithViews();
