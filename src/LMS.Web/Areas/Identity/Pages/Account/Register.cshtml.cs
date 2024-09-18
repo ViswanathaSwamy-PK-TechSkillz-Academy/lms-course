@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.WebUtilities;
+using Microsoft.EntityFrameworkCore;
 using System.ComponentModel.DataAnnotations;
 using System.Text;
 using System.Text.Encodings.Web;
@@ -18,6 +19,7 @@ namespace LMS.Web.Areas.Identity.Pages.Account
     {
         private readonly SignInManager<ApplicationUser> _signInManager;
         private readonly UserManager<ApplicationUser> _userManager;
+        private readonly RoleManager<IdentityRole> _roleManager;
         private readonly IUserStore<ApplicationUser> _userStore;
         private readonly IUserEmailStore<ApplicationUser> _emailStore;
         private readonly ILogger<RegisterModel> _logger;
@@ -27,6 +29,7 @@ namespace LMS.Web.Areas.Identity.Pages.Account
             UserManager<ApplicationUser> userManager,
             IUserStore<ApplicationUser> userStore,
             SignInManager<ApplicationUser> signInManager,
+            RoleManager<IdentityRole> roleManager,
             ILogger<RegisterModel> logger,
             IEmailSender emailSender)
         {
@@ -34,6 +37,7 @@ namespace LMS.Web.Areas.Identity.Pages.Account
             _userStore = userStore;
             _emailStore = GetEmailStore();
             _signInManager = signInManager;
+            _roleManager = roleManager;
             _logger = logger;
             _emailSender = emailSender;
         }
@@ -106,8 +110,10 @@ namespace LMS.Web.Areas.Identity.Pages.Account
             [Display(Name = "Date Of Birth")]
             public DateOnly DateOfBirth { get; set; }
 
-            //[Required]
-            //public string RoleName { get; set; }
+            [Required]
+            public string RoleName { get; set; }
+
+            public string[] RoleNames { get; set; }
         }
 
 
@@ -115,6 +121,13 @@ namespace LMS.Web.Areas.Identity.Pages.Account
         {
             ReturnUrl = returnUrl;
             ExternalLogins = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
+
+            var roles = await _roleManager.Roles
+                .Select(q => q.Name)
+                .Where(q => q != "Administrator")
+                .ToArrayAsync();
+            
+            Input.RoleNames = roles;
         }
 
         public async Task<IActionResult> OnPostAsync(string returnUrl = null)
