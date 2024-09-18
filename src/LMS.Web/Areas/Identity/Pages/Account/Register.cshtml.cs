@@ -50,6 +50,8 @@ namespace LMS.Web.Areas.Identity.Pages.Account
         [BindProperty]
         public InputModel Input { get; set; } = new InputModel();
 
+        public string[] RoleNames { get; set; }
+
         /// <summary>
         ///     This API supports the ASP.NET Core Identity default UI infrastructure and is not intended to be used
         ///     directly from your code. This API may change or be removed in future releases.
@@ -113,8 +115,6 @@ namespace LMS.Web.Areas.Identity.Pages.Account
 
             [Required]
             public string RoleName { get; set; }
-
-            public string[] RoleNames { get; set; }
         }
 
 
@@ -123,12 +123,17 @@ namespace LMS.Web.Areas.Identity.Pages.Account
             ReturnUrl = returnUrl;
             ExternalLogins = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
 
-            var roles = await _roleManager.Roles
-                .Select(q => q.Name)
-                .Where(q => q != "Administrator")
-                .ToArrayAsync();
+            await LoadUserRoles();
+        }
 
-            Input.RoleNames = roles;
+        private async Task LoadUserRoles()
+        {
+            string[] roles = await _roleManager.Roles
+                            .Select(q => q.Name)
+                            .Where(q => q != "Administrator")
+                            .ToArrayAsync();
+
+            RoleNames = roles;
         }
 
         public async Task<IActionResult> OnPostAsync(string returnUrl = null)
@@ -188,6 +193,8 @@ namespace LMS.Web.Areas.Identity.Pages.Account
                     ModelState.AddModelError(string.Empty, error.Description);
                 }
             }
+
+            await LoadUserRoles();
 
             // If we got this far, something failed, redisplay form
             return Page();
