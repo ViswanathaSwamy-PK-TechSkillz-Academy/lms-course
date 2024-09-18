@@ -10,6 +10,7 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.WebUtilities;
 using Microsoft.EntityFrameworkCore;
 using System.ComponentModel.DataAnnotations;
+using System.Data;
 using System.Text;
 using System.Text.Encodings.Web;
 
@@ -47,7 +48,7 @@ namespace LMS.Web.Areas.Identity.Pages.Account
         ///     directly from your code. This API may change or be removed in future releases.
         /// </summary>
         [BindProperty]
-        public InputModel Input { get; set; }
+        public InputModel Input { get; set; } = new InputModel();
 
         /// <summary>
         ///     This API supports the ASP.NET Core Identity default UI infrastructure and is not intended to be used
@@ -126,7 +127,7 @@ namespace LMS.Web.Areas.Identity.Pages.Account
                 .Select(q => q.Name)
                 .Where(q => q != "Administrator")
                 .ToArrayAsync();
-            
+
             Input.RoleNames = roles;
         }
 
@@ -150,6 +151,15 @@ namespace LMS.Web.Areas.Identity.Pages.Account
                 if (result.Succeeded)
                 {
                     _logger.LogInformation("User created a new account with password.");
+
+                    if (Input.RoleName == Roles.Supervisor)
+                    {
+                        await _userManager.AddToRolesAsync(user, [Roles.Employee, Roles.Supervisor]);
+                    }
+                    else
+                    {
+                        await _userManager.AddToRoleAsync(user, Roles.Employee);
+                    }
 
                     var userId = await _userManager.GetUserIdAsync(user);
                     var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
@@ -206,4 +216,14 @@ namespace LMS.Web.Areas.Identity.Pages.Account
             return (IUserEmailStore<ApplicationUser>)_userStore;
         }
     }
+
+    public static class Roles
+    {
+        public const string Administrator = "Administrator";
+
+        public const string Supervisor = "Supervisor";
+
+        public const string Employee = "Employee";
+    }
+
 }
