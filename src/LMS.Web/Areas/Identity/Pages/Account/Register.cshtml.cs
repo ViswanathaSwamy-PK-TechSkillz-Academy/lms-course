@@ -106,8 +106,8 @@ namespace LMS.Web.Areas.Identity.Pages.Account
             [Display(Name = "Date Of Birth")]
             public DateOnly DateOfBirth { get; set; }
 
-            [Required]
-            public string RoleName { get; set; }
+            //[Required]
+            //public string RoleName { get; set; }
         }
 
 
