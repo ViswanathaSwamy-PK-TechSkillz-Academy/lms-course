@@ -13,13 +13,13 @@
             <hr />
             <div asp-validation-summary="ModelOnly" class="text-danger" role="alert"></div>
             <div class="form-floating mb-3">
+                <input type="text" class="form-control" asp-for="Input.FirstName" aria-describedby="textHelp" placeholder="John">
                 <label asp-for="Input.FirstName" class="form-label">First Name</label>
-                <input type="text" class="form-control" asp-for="Input.FirstName" aria-describedby="textHelp">
                 <span asp-validation-for="Input.FirstName" class="text-danger"></span>
             </div>
             <div class="form-floating mb-3">
+                <input type="text" class="form-control" asp-for="Input.LastName" aria-describedby="textHelp" placeholder="Doe">
                 <label asp-for="Input.LastName" class="form-label">Last Name</label>
-                <input type="text" class="form-control" asp-for="Input.LastName" aria-describedby="textHelp">
                 <span asp-validation-for="Input.LastName" class="text-danger"></span>
             </div>
             <div class="form-floating mb-3">
@@ -28,8 +28,8 @@
                 <span asp-validation-for="Input.Email" class="text-danger"></span>
             </div>
             <div class="form-floating mb-3">
+                <input type="text" class="form-control" asp-for="Input.DateOfBirth" aria-describedby="emailHelp" placeholder="DD/MM/YYYY">
                 <label asp-for="Input.DateOfBirth" class="form-label">Date of Birth</label>
-                <input type="text" class="form-control" asp-for="Input.DateOfBirth" aria-describedby="emailHelp">
                 <span asp-validation-for="Input.DateOfBirth" class="text-danger"></span>
             </div>
             <div class="form-floating mb-3">
