@@ -1,4 +1,5 @@
-﻿using LMS.Persistence;
+﻿using LMS.IdentityPersistence.Entities;
+using LMS.Persistence;
 using LMS.Web.Services;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
