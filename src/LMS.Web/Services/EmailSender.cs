@@ -3,13 +3,13 @@ using System.Net.Mail;
 
 namespace LMS.Web.Services;
 
-public class EmailSender(IConfiguration _configuration) : IEmailSender
+public class EmailSender(IConfiguration configuration) : IEmailSender
 {
     public async Task SendEmailAsync(string email, string subject, string htmlMessage)
     {
-        var fromAddress = _configuration["EmailSettings:DefaultEmailAddress"];
-        var smtpServer = _configuration["EmailSettings:Server"];
-        var smtpPort = Convert.ToInt32(_configuration["EmailSettings:Port"]);
+        var fromAddress = configuration["EmailSettings:DefaultEmailAddress"];
+        var smtpServer = configuration["EmailSettings:Server"];
+        var smtpPort = Convert.ToInt32(configuration["EmailSettings:Port"]);
 
         MailMessage message = new()
         {
