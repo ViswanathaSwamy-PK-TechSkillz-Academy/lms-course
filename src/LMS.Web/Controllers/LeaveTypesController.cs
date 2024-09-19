@@ -24,7 +24,7 @@ public class LeaveTypesController(ILeaveTypesService leaveTypesService, ILogger<
     // GET: LeaveTypes/Details/5
     public async Task<IActionResult> Details(int? id)
     {
-        logger.LogInformation("LeaveType details page visited at {time}", DateTime.Now);
+        logger.LogInformation("LeaveType details page visited at {time} with {id}", DateTime.Now, id);
 
         if (id == null)
         {
