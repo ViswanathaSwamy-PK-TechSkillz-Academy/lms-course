@@ -2,6 +2,7 @@
 // The .NET Foundation licenses this file to you under the MIT license.
 #nullable disable
 
+using LMS.Web.Common;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.UI.Services;
@@ -222,15 +223,6 @@ namespace LMS.Web.Areas.Identity.Pages.Account
             }
             return (IUserEmailStore<ApplicationUser>)_userStore;
         }
-    }
-
-    public static class Roles
-    {
-        public const string Administrator = "Administrator";
-
-        public const string Supervisor = "Supervisor";
-
-        public const string Employee = "Employee";
     }
 
 }
