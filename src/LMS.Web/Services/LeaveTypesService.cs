@@ -63,7 +63,7 @@ public class LeaveTypesService(LMSDbContext lmsDbContext, ILogger<LeaveTypesCont
     {
         logger.LogInformation("LeaveTypesService::Create() visited at {time}", DateTime.Now);
 
-        var leaveType = mapper.Map<LeaveType>(model);
+        LeaveType? leaveType = mapper.Map<LeaveType>(model);
 
         lmsDbContext.Add(leaveType);
         await lmsDbContext.SaveChangesAsync();
