@@ -13,9 +13,24 @@
             <hr />
             <div asp-validation-summary="ModelOnly" class="text-danger" role="alert"></div>
             <div class="form-floating mb-3">
+                <input type="text" class="form-control" asp-for="Input.FirstName" aria-describedby="textHelp" placeholder="John">
+                <label asp-for="Input.FirstName" class="form-label">First Name</label>
+                <span asp-validation-for="Input.FirstName" class="text-danger"></span>
+            </div>
+            <div class="form-floating mb-3">
+                <input type="text" class="form-control" asp-for="Input.LastName" aria-describedby="textHelp" placeholder="Doe">
+                <label asp-for="Input.LastName" class="form-label">Last Name</label>
+                <span asp-validation-for="Input.LastName" class="text-danger"></span>
+            </div>
+            <div class="form-floating mb-3">
                 <input asp-for="Input.Email" class="form-control" autocomplete="username" aria-required="true" placeholder="name@example.com" />
                 <label asp-for="Input.Email">Email</label>
                 <span asp-validation-for="Input.Email" class="text-danger"></span>
+            </div>
+            <div class="form-floating mb-3">
+                <input type="text" class="form-control" asp-for="Input.DateOfBirth" aria-describedby="emailHelp" placeholder="DD/MM/YYYY">
+                <label asp-for="Input.DateOfBirth" class="form-label">Date of Birth</label>
+                <span asp-validation-for="Input.DateOfBirth" class="text-danger"></span>
             </div>
             <div class="form-floating mb-3">
                 <input asp-for="Input.Password" class="form-control" autocomplete="new-password" aria-required="true" placeholder="password" />
@@ -26,6 +41,18 @@
                 <input asp-for="Input.ConfirmPassword" class="form-control" autocomplete="new-password" aria-required="true" placeholder="password" />
                 <label asp-for="Input.ConfirmPassword">Confirm Password</label>
                 <span asp-validation-for="Input.ConfirmPassword" class="text-danger"></span>
+            </div>
+            <div class="form-floating mb-3">
+                @foreach (string? role in Model.RoleNames)
+                {
+                    <div class="form-check">
+                        <input class="form-check-input" type="radio" asp-for="Input.RoleName" value="@role">
+                        <label class="form-check-label" asp-for="Input.RoleName">
+                            @role
+                        </label>
+                    </div>
+                }
+                <span asp-validation-for="Input.RoleName" class="text-danger"></span>
             </div>
             <button id="registerSubmit" type="submit" class="w-100 btn btn-lg btn-primary">Register</button>
         </form>
@@ -39,8 +66,10 @@
                 {
                     <div>
                         <p>
-                            There are no external authentication services configured. See this <a href="https://go.microsoft.com/fwlink/?LinkID=532715">article
-                            about setting up this ASP.NET application to support logging in via external services</a>.
+                            There are no external authentication services configured. See this <a href="https://go.microsoft.com/fwlink/?LinkID=532715">
+                                article
+                                about setting up this ASP.NET application to support logging in via external services
+                            </a>.
                         </p>
                     </div>
                 }

@@ -30,6 +30,7 @@
 
 	<ItemGroup>
 		<Using Include="LMS.IdentityPersistence" />
+		<Using Include="LMS.IdentityPersistence.Entities" />
 	</ItemGroup>
 
 </Project>

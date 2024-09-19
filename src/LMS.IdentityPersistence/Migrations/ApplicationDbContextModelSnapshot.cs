@@ -22,7 +22,7 @@ namespace LMS.Web.Data.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
-            modelBuilder.Entity("LMS.IdentityPersistence.ApplicationUser", b =>
+            modelBuilder.Entity("LMS.IdentityPersistence.Entities.ApplicationUser", b =>
                 {
                     b.Property<string>("Id")
                         .HasColumnType("nvarchar(450)");
@@ -102,7 +102,7 @@ namespace LMS.Web.Data.Migrations
                         {
                             Id = "408aa945-3d84-4421-8342-7269ec64d949",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "e21cef22-a4c2-4549-8c4e-81161a6d3a52",
+                            ConcurrencyStamp = "646a8e9b-69f0-4c3b-9740-6ac2b4bf76b0",
                             DateOfBirth = new DateOnly(1980, 1, 1),
                             Email = "admin@localhost.com",
                             EmailConfirmed = true,
@@ -111,9 +111,9 @@ namespace LMS.Web.Data.Migrations
                             LockoutEnabled = false,
                             NormalizedEmail = "ADMIN@LOCALHOST.COM",
                             NormalizedUserName = "ADMIN@LOCALHOST.COM",
-                            PasswordHash = "AQAAAAIAAYagAAAAEKhaNQOtNFLmE0r1RhQLHFA+hFCir3lZ1KnFD87Hp7nC7/UP4nz6sZIKDME5nqbp7g==",
+                            PasswordHash = "AQAAAAIAAYagAAAAEIkvMnhbBLjPJwKnIGe7/fRe8QUufd86LZ1GA00yBJSwi4G2+ERiZsyQ11E1nSxZ2Q==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "5af46a09-9937-404a-9f40-636ddabae525",
+                            SecurityStamp = "8f88513c-575e-40d1-ae30-844556a9fb2f",
                             TwoFactorEnabled = false,
                             UserName = "admin@localhost.com"
                         });
@@ -294,7 +294,7 @@ namespace LMS.Web.Data.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserClaim<string>", b =>
                 {
-                    b.HasOne("LMS.IdentityPersistence.ApplicationUser", null)
+                    b.HasOne("LMS.IdentityPersistence.Entities.ApplicationUser", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -303,7 +303,7 @@ namespace LMS.Web.Data.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserLogin<string>", b =>
                 {
-                    b.HasOne("LMS.IdentityPersistence.ApplicationUser", null)
+                    b.HasOne("LMS.IdentityPersistence.Entities.ApplicationUser", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -318,7 +318,7 @@ namespace LMS.Web.Data.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("LMS.IdentityPersistence.ApplicationUser", null)
+                    b.HasOne("LMS.IdentityPersistence.Entities.ApplicationUser", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -327,7 +327,7 @@ namespace LMS.Web.Data.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<string>", b =>
                 {
-                    b.HasOne("LMS.IdentityPersistence.ApplicationUser", null)
+                    b.HasOne("LMS.IdentityPersistence.Entities.ApplicationUser", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
