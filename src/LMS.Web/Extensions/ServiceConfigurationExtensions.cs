@@ -1,6 +1,7 @@
 ﻿using LMS.Persistence;
 using LMS.Web.Services;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.EntityFrameworkCore;
 using System.Reflection;
 
@@ -21,6 +22,8 @@ public static class ServiceConfigurationExtensions
         _ = builder.Services.AddAutoMapper(Assembly.GetExecutingAssembly());
 
         _ = builder.Services.AddScoped<ILeaveTypesService, LeaveTypesService>();
+
+        _ = builder.Services.AddTransient<IEmailSender, EmailSender>();
 
         _ = builder.Services.AddDefaultIdentity<ApplicationUser>(options => options.SignIn.RequireConfirmedAccount = true)
                             .AddRoles<IdentityRole>()
