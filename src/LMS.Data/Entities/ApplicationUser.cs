@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Identity;
 
-namespace LMS.IdentityPersistence.Entities;
+namespace LMS.Data.Entities;
 
 public class ApplicationUser : IdentityUser
 {
