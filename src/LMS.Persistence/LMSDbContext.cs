@@ -8,6 +8,10 @@ public class LMSDbContext(DbContextOptions<LMSDbContext> options) : DbContext(op
 {
     public DbSet<LeaveType> LeaveTypes => Set<LeaveType>();
 
+    public DbSet<LeaveAllocation> LeaveAllocations => Set<LeaveAllocation>();
+
+    public DbSet<Period> Periods => Set<Period>();
+
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         base.OnModelCreating(modelBuilder);
