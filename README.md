@@ -2,6 +2,8 @@
 
 I am learning ASP.NET Core MVC Application from different Video Courses, Books, and Websites.
 
+## Few Commands
+
 ```powershell
 dotnet tool update --global dotnet-ef
 
@@ -26,3 +28,6 @@ dotnet ef migrations add LmsAddedLeaveAllocation --project ../LMS.Persistence --
 dotnet ef database update --context LMSDbContext
 ```
 
+## To do List
+
+> 1. 
