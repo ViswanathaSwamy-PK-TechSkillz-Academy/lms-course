@@ -13,4 +13,8 @@
 		<PackageReference Include="System.Formats.Asn1" Version="8.0.*" />
 	</ItemGroup>
 
+	<ItemGroup>
+	  <ProjectReference Include="..\LMS.Data\LMS.Data.csproj" />
+	</ItemGroup>
+
 </Project>
