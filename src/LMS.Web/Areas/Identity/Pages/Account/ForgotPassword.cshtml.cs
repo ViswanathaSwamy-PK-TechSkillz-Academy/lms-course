@@ -74,7 +74,7 @@ namespace LMS.Web.Areas.Identity.Pages.Account
                 // Log the callback URL securely
                 _logger.LogInformation("Password reset URL generated: {CallbackUrl}", callbackUrl);
 
-                const string htmlMessage = $"Please reset your password by <a href='{HtmlEncoder.Default.Encode(callbackUrl)}'>clicking here</a>."); ;
+                string htmlMessage = $"Please reset your password by <a href='{HtmlEncoder.Default.Encode(callbackUrl)}'>clicking here</a>.";
 
                 await _emailSender.SendEmailAsync(
                     Input.Email,
