@@ -1,6 +1,5 @@
 ﻿using Microsoft.AspNetCore.Identity.UI.Services;
 using System.Net.Mail;
-using System.Text.Encodings.Web;
 
 namespace LMS.Web.Services;
 
