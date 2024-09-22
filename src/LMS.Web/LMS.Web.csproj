@@ -30,7 +30,7 @@
 
 	<ItemGroup>
 		<Using Include="LMS.IdentityPersistence" />
-		<Using Include="LMS.Web.Common"/>
+		<Using Include="LMS.Web.Common" />
 	</ItemGroup>
 
 </Project>
