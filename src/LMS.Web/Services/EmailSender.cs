@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Identity.UI.Services;
 using System.Net.Mail;
+using System.Text.Encodings.Web;
 
 namespace LMS.Web.Services;
 
@@ -15,7 +16,7 @@ public class EmailSender(IConfiguration configuration) : IEmailSender
         {
             From = new MailAddress(fromAddress!),
             Subject = subject,
-            Body = htmlMessage,
+            Body = HtmlEncoder.Default.Encode(htmlMessage),
             IsBodyHtml = true
         };
 
