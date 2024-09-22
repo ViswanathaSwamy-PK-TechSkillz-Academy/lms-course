@@ -16,7 +16,7 @@ public class EmailSender(IConfiguration configuration) : IEmailSender
         {
             From = new MailAddress(fromAddress!),
             Subject = subject,
-            Body = HtmlEncoder.Default.Encode(htmlMessage),
+            Body = htmlMessage,
             IsBodyHtml = true
         };
 
