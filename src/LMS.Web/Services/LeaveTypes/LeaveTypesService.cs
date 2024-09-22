@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using LMS.Data.Entities;
 using LMS.Persistence;
 using LMS.Web.Controllers;
 using LMS.Web.Models.LeaveTypes;
