@@ -2,6 +2,10 @@
 
 I am learning ASP.NET Core MVC Application from different Video Courses, Books, and Websites.
 
+## Reference(s)
+
+> 1. <https://www.udemy.com/course/complete-aspnet-core-31-and-entity-framework-development/learn/lecture/17700164#overview>
+
 ## Few Commands
 
 ```powershell
