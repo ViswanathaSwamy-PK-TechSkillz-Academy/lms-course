@@ -1,5 +1,5 @@
 ﻿using LMS.Web.Models.LeaveTypes;
-using LMS.Web.Services;
+using LMS.Web.Services.LeaveType;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;

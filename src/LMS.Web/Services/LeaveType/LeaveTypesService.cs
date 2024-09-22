@@ -1,11 +1,10 @@
 ﻿using AutoMapper;
-using LMS.Data.Entities;
 using LMS.Persistence;
 using LMS.Web.Controllers;
 using LMS.Web.Models.LeaveTypes;
 using Microsoft.EntityFrameworkCore;
 
-namespace LMS.Web.Services;
+namespace LMS.Web.Services.LeaveType;
 
 public class LeaveTypesService(LMSDbContext lmsDbContext, ILogger<LeaveTypesController> logger, IMapper mapper) : ILeaveTypesService
 {
