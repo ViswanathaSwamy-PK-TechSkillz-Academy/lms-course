@@ -10,19 +10,20 @@ public class LeaveAllocationsService(LMSDbContext lmsDbContext) : ILeaveAllocati
     public async Task AllocateLeave(string employeeId)
     {
         // get all the leave types
-        var leaveTypes = await lmsDbContext.LeaveTypes.ToListAsync();
+        List<LeaveType> leaveTypes = await lmsDbContext.LeaveTypes.ToListAsync();
 
         // get the current period based on the year
-        var currentYear = DateTime.Now.Year;
-        var period = await lmsDbContext.Periods.SingleAsync(r => r.EndDate.Year == currentYear);
+        int currentYear = DateTime.Now.Year;
+        Period? period = await lmsDbContext.Periods.SingleAsync(r => r.EndDate.Year == currentYear);
 
-        var monthsRemaining = period.EndDate.Month - DateTime.Now.Month;
+        int monthsRemaining = period.EndDate.Month - DateTime.Now.Month;
 
         // foreach leave type, create an allocation entry
         foreach (var leaveType in leaveTypes)
         {
-            var accuralRate = decimal.Divide(leaveType.NumberOfDays, 12);
-            var leaveAllocation = new LeaveAllocation
+            decimal accuralRate = decimal.Divide(leaveType.NumberOfDays, 12);
+
+            LeaveAllocation leaveAllocation = new()
             {
                 EmployeeId = employeeId,
                 LeaveTypeId = leaveType.Id,
