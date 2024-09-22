@@ -1,7 +1,7 @@
 ﻿using LMS.Data.Entities;
 using LMS.Persistence;
 using LMS.Web.Services.Email;
-using LMS.Web.Services.LeaveType;
+using LMS.Web.Services.LeaveTypes;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.EntityFrameworkCore;

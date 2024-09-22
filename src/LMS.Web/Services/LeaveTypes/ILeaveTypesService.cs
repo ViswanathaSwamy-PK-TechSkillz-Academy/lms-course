@@ -1,6 +1,6 @@
 ﻿using LMS.Web.Models.LeaveTypes;
 
-namespace LMS.Web.Services.LeaveType;
+namespace LMS.Web.Services.LeaveTypes;
 
 public interface ILeaveTypesService
 {
