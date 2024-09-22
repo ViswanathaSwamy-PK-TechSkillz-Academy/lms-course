@@ -10,6 +10,7 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.WebUtilities;
 using System.ComponentModel.DataAnnotations;
 using System.Text;
+using System.Text.Encodings.Web;
 
 namespace LMS.Web.Areas.Identity.Pages.Account
 {
@@ -73,10 +74,12 @@ namespace LMS.Web.Areas.Identity.Pages.Account
                 // Log the callback URL securely
                 _logger.LogInformation("Password reset URL generated: {CallbackUrl}", callbackUrl);
 
+                const string htmlMessage = $"Please reset your password by <a href='{HtmlEncoder.Default.Encode(callbackUrl)}'>clicking here</a>."); ;
+
                 await _emailSender.SendEmailAsync(
                     Input.Email,
                     "Reset Password",
-                    "Please reset your password by clicking the link sent to your email address.");
+                    htmlMessage: htmlMessage);
 
                 return RedirectToPage("./ForgotPasswordConfirmation");
             }
