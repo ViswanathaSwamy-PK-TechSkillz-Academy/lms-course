@@ -25,9 +25,9 @@ dotnet ef database update --context LMSIdentityDbContext
 C:\> CD D:\TSA\lms-course\src\LMS.Web>
 
 # Add migration for LMSDbContext
-dotnet ef migrations add LmsAddingLeaveTypeTable --project ../LMS.Persistence --startup-project . --context LMSDbContext
-dotnet ef migrations add LmsChangingTheSchema --project ../LMS.Persistence --startup-project . --context LMSDbContext
-dotnet ef migrations add LmsAddedLeaveAllocation --project ../LMS.Persistence --startup-project . --context LMSDbContext
+# dotnet ef migrations add LmsAddingLeaveTypeTable --project ../LMS.Persistence --startup-project . --context LMSDbContext
+# dotnet ef migrations add LmsChangingTheSchema --project ../LMS.Persistence --startup-project . --context LMSDbContext
+# dotnet ef migrations add LmsAddedLeaveAllocation --project ../LMS.Persistence --startup-project . --context LMSDbContext
 dotnet ef migrations add LMSInitialCreate --project ../LMS.Persistence --startup-project . --context LMSDbContext
 
 

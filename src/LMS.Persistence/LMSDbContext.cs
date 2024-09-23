@@ -16,6 +16,9 @@ public class LMSDbContext(DbContextOptions<LMSDbContext> options) : DbContext(op
     {
         base.OnModelCreating(modelBuilder);
 
+        // Ignore the ApplicationUser entity in LMSDbContext
+        modelBuilder.Ignore<ApplicationUser>();
+
         // Set default schema for the entire context
         modelBuilder.HasDefaultSchema("lms");
 
