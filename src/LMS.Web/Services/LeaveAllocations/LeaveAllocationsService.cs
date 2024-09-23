@@ -21,14 +21,14 @@ public class LeaveAllocationsService(LMSDbContext lmsDbContext) : ILeaveAllocati
         // foreach leave type, create an allocation entry
         foreach (var leaveType in leaveTypes)
         {
-            decimal accuralRate = decimal.Divide(leaveType.NumberOfDays, 12);
+            decimal accrualRate = decimal.Divide(leaveType.NumberOfDays, 12);
 
             LeaveAllocation leaveAllocation = new()
             {
                 EmployeeId = employeeId,
                 LeaveTypeId = leaveType.Id,
                 PeriodId = period.Id,
-                Days = (int)Math.Ceiling(accuralRate * monthsRemaining)
+                Days = (int)Math.Ceiling(accrualRate * monthsRemaining)
             };
 
             lmsDbContext.Add(leaveAllocation);
