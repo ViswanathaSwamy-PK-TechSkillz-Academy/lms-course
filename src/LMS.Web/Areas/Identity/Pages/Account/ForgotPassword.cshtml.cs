@@ -18,11 +18,14 @@ namespace LMS.Web.Areas.Identity.Pages.Account
     {
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly IEmailSender _emailSender;
+        private readonly ILogger<ForgotPasswordModel> _logger;
 
-        public ForgotPasswordModel(UserManager<ApplicationUser> userManager, IEmailSender emailSender)
+        public ForgotPasswordModel(UserManager<ApplicationUser> userManager, IEmailSender emailSender, ILogger<ForgotPasswordModel> logger)
         {
             _userManager = userManager;
             _emailSender = emailSender;
+
+            _logger = logger;
         }
 
         /// <summary>
@@ -71,10 +74,12 @@ namespace LMS.Web.Areas.Identity.Pages.Account
                 // Log the callback URL securely
                 _logger.LogInformation("Password reset URL generated: {CallbackUrl}", callbackUrl);
 
+                string htmlMessage = $"Please reset your password by <a href='{HtmlEncoder.Default.Encode(callbackUrl)}'>clicking here</a>.";
+
                 await _emailSender.SendEmailAsync(
                     Input.Email,
                     "Reset Password",
-                    "Please reset your password by clicking the link sent to your email address.");
+                    htmlMessage: htmlMessage);
 
                 return RedirectToPage("./ForgotPasswordConfirmation");
             }

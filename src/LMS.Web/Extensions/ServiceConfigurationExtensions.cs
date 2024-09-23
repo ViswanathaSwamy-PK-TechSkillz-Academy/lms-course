@@ -1,6 +1,8 @@
 ﻿using LMS.Data.Entities;
 using LMS.Persistence;
-using LMS.Web.Services;
+using LMS.Web.Services.Email;
+using LMS.Web.Services.LeaveAllocations;
+using LMS.Web.Services.LeaveTypes;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.EntityFrameworkCore;
@@ -23,6 +25,8 @@ public static class ServiceConfigurationExtensions
         _ = builder.Services.AddAutoMapper(Assembly.GetExecutingAssembly());
 
         _ = builder.Services.AddScoped<ILeaveTypesService, LeaveTypesService>();
+
+        _ = builder.Services.AddScoped<ILeaveAllocationsService, LeaveAllocationsService>();
 
         _ = builder.Services.AddTransient<IEmailSender, EmailSender>();
 

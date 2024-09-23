@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace LMS.Persistence.Migrations
 {
     [DbContext(typeof(LMSDbContext))]
-    [Migration("20240921075844_LmsAddedLeaveAllocation")]
+    [Migration("20240922154452_LmsAddedLeaveAllocation")]
     partial class LmsAddedLeaveAllocation
     {
         /// <inheritdoc />

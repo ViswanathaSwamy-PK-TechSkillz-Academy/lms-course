@@ -3,6 +3,7 @@
 #nullable disable
 
 using LMS.Data.Entities;
+using LMS.Web.Services.LeaveAllocations;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.UI.Services;
@@ -26,6 +27,7 @@ namespace LMS.Web.Areas.Identity.Pages.Account
         private readonly IUserEmailStore<ApplicationUser> _emailStore;
         private readonly ILogger<RegisterModel> _logger;
         private readonly IEmailSender _emailSender;
+        private readonly ILeaveAllocationsService _leaveAllocationsService;
 
         public RegisterModel(
             UserManager<ApplicationUser> userManager,
@@ -33,7 +35,7 @@ namespace LMS.Web.Areas.Identity.Pages.Account
             SignInManager<ApplicationUser> signInManager,
             RoleManager<IdentityRole> roleManager,
             ILogger<RegisterModel> logger,
-            IEmailSender emailSender)
+            IEmailSender emailSender, ILeaveAllocationsService leaveAllocationsService)
         {
             _userManager = userManager;
             _userStore = userStore;
@@ -41,7 +43,10 @@ namespace LMS.Web.Areas.Identity.Pages.Account
             _signInManager = signInManager;
             _roleManager = roleManager;
             _logger = logger;
+
             _emailSender = emailSender;
+
+            _leaveAllocationsService = leaveAllocationsService;
         }
 
         /// <summary>
@@ -168,6 +173,9 @@ namespace LMS.Web.Areas.Identity.Pages.Account
                     }
 
                     var userId = await _userManager.GetUserIdAsync(user);
+
+                    await _leaveAllocationsService.AllocateLeave(userId);
+
                     var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
                     code = WebEncoders.Base64UrlEncode(Encoding.UTF8.GetBytes(code));
                     var callbackUrl = Url.Page(
