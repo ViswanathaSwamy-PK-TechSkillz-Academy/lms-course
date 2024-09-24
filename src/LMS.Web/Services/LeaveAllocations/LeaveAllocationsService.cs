@@ -59,7 +59,24 @@ public class LeaveAllocationsService(LMSDbContext lmsDbContext, IHttpContextAcce
 
         var allocationsVmList = mapper.Map<List<LeaveAllocationVM>>(allocations);
 
-        return null;
+        var user = await userManager.GetUserAsync(httpContextAccessor.HttpContext?.User!);
+
+        EmployeeAllocationVM employeeAllocationVm = new()
+        {
+            DateOfBirth = user!.DateOfBirth,
+
+            Email = user!.Email,
+
+            FirstName = user!.FirstName,
+
+            LastName = user!.LastName,
+
+            Id = user!.Id,
+
+            LeaveAllocations = allocationsVmList
+        };
+
+        return employeeAllocationVm;
     }
 
 }
