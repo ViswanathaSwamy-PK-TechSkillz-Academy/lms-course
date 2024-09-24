@@ -72,7 +72,7 @@ namespace LMS.Web.Areas.Identity.Pages.Account
                     protocol: Request.Scheme);
 
                 // Log the callback URL securely
-                _logger.LogInformation("Password reset URL generated: {CallbackUrl}", callbackUrl);
+                //_logger.LogInformation("Password reset URL generated: {CallbackUrl}", callbackUrl);
 
                 string htmlMessage = $"Please reset your password by <a href='{HtmlEncoder.Default.Encode(callbackUrl)}'>clicking here</a>.";
 

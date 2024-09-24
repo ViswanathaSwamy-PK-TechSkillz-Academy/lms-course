@@ -12,6 +12,8 @@ public class LMSIdentityDbContext(DbContextOptions<LMSIdentityDbContext> options
     {
         base.OnModelCreating(modelBuilder);
 
+        modelBuilder.Entity<ApplicationUser>().ToTable("ApplicationUser", "dbo");
+
         // Seeding Default Data
         _ = modelBuilder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());
 
