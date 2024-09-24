@@ -23,7 +23,7 @@ public class EmployeeAllocationVM
     [DataType(DataType.Date)]
     public DateOnly DateOfBirth { get; set; }
 
-    //public bool IsCompletedAllocation { get; set; }
+    public bool IsCompletedAllocation { get; set; }
 
     public List<LeaveAllocationVM>? LeaveAllocations { get; set; }
 }
