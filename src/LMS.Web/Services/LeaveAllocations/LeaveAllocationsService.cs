@@ -36,4 +36,16 @@ public class LeaveAllocationsService(LMSDbContext lmsDbContext) : ILeaveAllocati
 
         await lmsDbContext.SaveChangesAsync();
     }
+
+    public async Task<List<LeaveAllocation>> GetEmployeeAllocations(string? employeeId)
+    {
+        var leaveAllocations = await lmsDbContext.LeaveAllocations
+            .Include(r => r.LeaveType)
+            .Include(r => r.EmployeeId)
+            .Include(r => r.Period)
+            .Where(r => r.EmployeeId == employeeId)
+            .ToListAsync();
+
+        return leaveAllocations;
+    }
 }
