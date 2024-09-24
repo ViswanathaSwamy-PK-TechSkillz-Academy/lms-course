@@ -1,8 +1,12 @@
-﻿namespace LMS.Web.Services.LeaveAllocations;
+﻿using LMS.Data.Entities;
+
+namespace LMS.Web.Services.LeaveAllocations;
 
 public interface ILeaveAllocationsService
 {
     Task AllocateLeave(string employeeId);
+
+    Task<List<LeaveAllocation>> GetEmployeeAllocations();
 
     //Task<EmployeeAllocationVM> GetEmployeeAllocations(string? userId);
     //Task<LeaveAllocationEditVM> GetEmployeeAllocation(int allocationId);

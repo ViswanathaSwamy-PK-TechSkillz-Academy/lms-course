@@ -1,11 +1,12 @@
-﻿
-using LMS.Data.Entities;
+﻿using LMS.Data.Entities;
 using LMS.Persistence;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
 namespace LMS.Web.Services.LeaveAllocations;
 
-public class LeaveAllocationsService(LMSDbContext lmsDbContext) : ILeaveAllocationsService
+public class LeaveAllocationsService(LMSDbContext lmsDbContext, IHttpContextAccessor httpContextAccessor,
+    UserManager<ApplicationUser> userManager) : ILeaveAllocationsService
 {
     public async Task AllocateLeave(string employeeId)
     {
@@ -35,5 +36,19 @@ public class LeaveAllocationsService(LMSDbContext lmsDbContext) : ILeaveAllocati
         }
 
         await lmsDbContext.SaveChangesAsync();
+    }
+
+    public async Task<List<LeaveAllocation>> GetEmployeeAllocations()
+    {
+        var user = await userManager.GetUserAsync(httpContextAccessor.HttpContext?.User!);
+
+        var leaveAllocations = await lmsDbContext.LeaveAllocations
+            .Include(r => r.LeaveType)
+            .Include(r => r.EmployeeId)
+            .Include(r => r.Period)
+            .Where(r => r.EmployeeId == user!.Id)
+            .ToListAsync();
+
+        return leaveAllocations;
     }
 }

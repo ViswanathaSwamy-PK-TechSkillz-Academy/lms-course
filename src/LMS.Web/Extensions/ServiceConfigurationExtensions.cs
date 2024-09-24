@@ -22,6 +22,8 @@ public static class ServiceConfigurationExtensions
 
         _ = builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 
+        _ = builder.Services.AddHttpContextAccessor();
+
         _ = builder.Services.AddAutoMapper(Assembly.GetExecutingAssembly());
 
         _ = builder.Services.AddScoped<ILeaveTypesService, LeaveTypesService>();
