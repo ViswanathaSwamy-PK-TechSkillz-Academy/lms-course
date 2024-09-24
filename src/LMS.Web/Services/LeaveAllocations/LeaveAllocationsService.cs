@@ -68,7 +68,7 @@ public class LeaveAllocationsService(LMSDbContext lmsDbContext, IHttpContextAcce
         {
             DateOfBirth = user!.DateOfBirth,
 
-            Email = user!.Email,
+            Email = user.Email!,
 
             FirstName = user!.FirstName,
 

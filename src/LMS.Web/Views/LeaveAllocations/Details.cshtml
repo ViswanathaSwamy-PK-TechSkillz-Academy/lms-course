@@ -61,11 +61,11 @@
     <br />
     <br />
 }
-@if (Model.LeaveAllocations.Any())
+@if (Model.LeaveAllocations!.Any())
 {
     <div class="card">
         <div class="card-header">
-            <h4>Leave Allocations for period @Model.LeaveAllocations[0].Period.Name</h4>
+            <h4>Leave Allocations for period @Model.LeaveAllocations![0].Period.Name</h4>
         </div>
         <ul class="list-group list-group-flush">
             <li class="list-group-item">
