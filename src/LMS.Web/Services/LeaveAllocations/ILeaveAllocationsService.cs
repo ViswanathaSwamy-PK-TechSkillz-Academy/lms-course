@@ -6,7 +6,7 @@ public interface ILeaveAllocationsService
 {
     Task AllocateLeave(string employeeId);
 
-    Task<List<LeaveAllocation>> GetEmployeeAllocations(string? employeeId);
+    Task<List<LeaveAllocation>> GetEmployeeAllocations();
 
     //Task<EmployeeAllocationVM> GetEmployeeAllocations(string? userId);
     //Task<LeaveAllocationEditVM> GetEmployeeAllocation(int allocationId);
