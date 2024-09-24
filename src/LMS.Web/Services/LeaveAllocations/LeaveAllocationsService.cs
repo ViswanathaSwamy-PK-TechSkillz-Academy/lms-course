@@ -2,6 +2,7 @@
 using LMS.Data.Entities;
 using LMS.Persistence;
 using LMS.Web.Models.LeaveAllocations;
+using LMS.Web.Models.Periods;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
@@ -44,10 +45,12 @@ public class LeaveAllocationsService(LMSDbContext lmsDbContext, IHttpContextAcce
     {
         var user = await userManager.GetUserAsync(httpContextAccessor.HttpContext?.User!);
 
+        var period = await lmsDbContext.Periods.SingleAsync(r => r.EndDate.Year >= DateTime.Now.Year);
+
         var leaveAllocations = await lmsDbContext.LeaveAllocations
             .Include(r => r.LeaveType)
             .Include(r => r.Period)
-            .Where(r => r.EmployeeId == user!.Id)
+            .Where(r => r.EmployeeId == user!.Id && r.Period!.Id == period.Id)
             .ToListAsync();
 
         return leaveAllocations;
