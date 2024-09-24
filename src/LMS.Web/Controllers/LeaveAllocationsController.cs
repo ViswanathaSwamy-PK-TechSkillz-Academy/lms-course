@@ -14,4 +14,11 @@ public class LeaveAllocationsController(ILeaveAllocationsService leaveAllocation
 
         return View(leaveAllocations);
     }
+
+    public async Task<IActionResult> Details(string? userId)
+    {
+        var employeeVm = await leaveAllocationsService.GetEmployeeAllocations();
+
+        return View(employeeVm);
+    }
 }

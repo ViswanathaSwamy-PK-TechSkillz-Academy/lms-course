@@ -1,4 +1,5 @@
 ﻿using LMS.Data.Entities;
+using LMS.Web.Models.LeaveAllocations;
 
 namespace LMS.Web.Services.LeaveAllocations;
 
@@ -6,9 +7,10 @@ public interface ILeaveAllocationsService
 {
     Task AllocateLeave(string employeeId);
 
-    Task<List<LeaveAllocation>> GetEmployeeAllocations();
+    Task<List<LeaveAllocation>> GetAllocations();
 
-    //Task<EmployeeAllocationVM> GetEmployeeAllocations(string? userId);
+    Task<EmployeeAllocationVM> GetEmployeeAllocations();
+
     //Task<LeaveAllocationEditVM> GetEmployeeAllocation(int allocationId);
     //Task<List<EmployeeListVM>> GetEmployees();
     //Task EditAllocation(LeaveAllocationEditVM allocationEditVm);
