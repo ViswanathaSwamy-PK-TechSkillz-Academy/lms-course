@@ -40,26 +40,12 @@ public class LeaveAllocationsService(LMSDbContext lmsDbContext, IHttpContextAcce
         await lmsDbContext.SaveChangesAsync();
     }
 
-    public async Task<List<LeaveAllocation>> GetAllocations(string? userId)
+    private async Task<List<LeaveAllocation>> GetAllocations(string? userId)
     {
-        string employeeId = string.Empty;
-
-        if (string.IsNullOrEmpty(userId))
-        {
-            var user = await userManager.GetUserAsync(httpContextAccessor.HttpContext?.User!);
-            employeeId = user!.Id;
-        }
-        else
-        {
-            employeeId = userId!;
-        }
-
-        var period = await lmsDbContext.Periods.SingleAsync(r => r.EndDate.Year >= DateTime.Now.Year);
-
         var leaveAllocations = await lmsDbContext.LeaveAllocations
             .Include(r => r.LeaveType)
             .Include(r => r.Period)
-            .Where(r => r.EmployeeId == employeeId && r.Period!.Id == period.Id)
+            .Where(r => r.EmployeeId == userId && r.Period!.EndDate.Year == DateTime.Now.Year)
             .ToListAsync();
 
         return leaveAllocations;
@@ -67,29 +53,21 @@ public class LeaveAllocationsService(LMSDbContext lmsDbContext, IHttpContextAcce
 
     public async Task<EmployeeAllocationVM> GetEmployeeAllocations(string? userId)
     {
-
-        var user = string.IsNullOrEmpty(userId) 
-            ? await userManager.GetUserAsync(httpContextAccessor.HttpContext?.User!) 
+        var user = string.IsNullOrEmpty(userId)
+            ? await userManager.GetUserAsync(httpContextAccessor.HttpContext?.User!)
             : await userManager.FindByIdAsync(userId);
 
-        var allocations = await GetAllocations(userId);
+        var allocations = await GetAllocations(user?.Id);
 
         var allocationsVmList = mapper.Map<List<LeaveAllocationVM>>(allocations);
-
-        var user = await userManager.GetUserAsync(httpContextAccessor.HttpContext?.User!);
 
         EmployeeAllocationVM employeeAllocationVm = new()
         {
             DateOfBirth = user!.DateOfBirth,
-
             Email = user.Email!,
-
             FirstName = user!.FirstName,
-
             LastName = user!.LastName,
-
             Id = user!.Id,
-
             LeaveAllocations = allocationsVmList
         };
 
