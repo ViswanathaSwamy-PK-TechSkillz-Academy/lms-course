@@ -40,7 +40,7 @@ public class LeaveAllocationsService(LMSDbContext lmsDbContext, IHttpContextAcce
         await lmsDbContext.SaveChangesAsync();
     }
 
-    public async Task<List<LeaveAllocation>> GetAllocations(int? id)
+    public async Task<List<LeaveAllocation>> GetAllocations(string? userId)
     {
         var user = await userManager.GetUserAsync(httpContextAccessor.HttpContext?.User!);
 
@@ -55,7 +55,7 @@ public class LeaveAllocationsService(LMSDbContext lmsDbContext, IHttpContextAcce
         return leaveAllocations;
     }
 
-    public async Task<EmployeeAllocationVM> GetEmployeeAllocations(int? id)
+    public async Task<EmployeeAllocationVM> GetEmployeeAllocations(string? userId)
     {
         var allocations = await GetAllocations();
 
