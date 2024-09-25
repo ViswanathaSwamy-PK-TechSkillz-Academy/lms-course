@@ -10,9 +10,9 @@ public class LeaveAllocationsController(ILeaveAllocationsService leaveAllocation
     [Authorize(Roles = Roles.Administrator)]
     public async Task<IActionResult> Index()
     {
-        var leaveAllocations = await leaveAllocationsService.GetEmployeeAllocations();
+        var employees = await leaveAllocationsService.GetEmployees();
 
-        return View(leaveAllocations);
+        return View(employees);
     }
 
     public async Task<IActionResult> Details()

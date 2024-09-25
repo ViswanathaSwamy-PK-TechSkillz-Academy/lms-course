@@ -81,17 +81,13 @@ public class LeaveAllocationsService(LMSDbContext lmsDbContext, IHttpContextAcce
         return employeeAllocationVm;
     }
 
-    public async Task<EmployeeListVM> GetEmployees()
+    public async Task<List<EmployeeListVM>> GetEmployees()
     {
         var employees = await userManager.GetUsersInRoleAsync(Roles.Employee);
 
         var employeeListVm = mapper.Map<List<EmployeeListVM>>(employees);
-        
-        EmployeeListVM employeeList = new()
-        {
-            Employees = employeeListVm
-        };
-        return employeeList;
+
+        return employeeListVm;
     }
 
 }
