@@ -42,14 +42,24 @@ public class LeaveAllocationsService(LMSDbContext lmsDbContext, IHttpContextAcce
 
     public async Task<List<LeaveAllocation>> GetAllocations(string? userId)
     {
-        var user = await userManager.GetUserAsync(httpContextAccessor.HttpContext?.User!);
+        string employeeId = string.Empty;
+
+        if (string.IsNullOrEmpty(userId))
+        {
+            var user = await userManager.GetUserAsync(httpContextAccessor.HttpContext?.User!);
+            employeeId = user!.Id;
+        }
+        else
+        {
+            employeeId = userId!;
+        }
 
         var period = await lmsDbContext.Periods.SingleAsync(r => r.EndDate.Year >= DateTime.Now.Year);
 
         var leaveAllocations = await lmsDbContext.LeaveAllocations
             .Include(r => r.LeaveType)
             .Include(r => r.Period)
-            .Where(r => r.EmployeeId == user!.Id && r.Period!.Id == period.Id)
+            .Where(r => r.EmployeeId == employeeId && r.Period!.Id == period.Id)
             .ToListAsync();
 
         return leaveAllocations;
