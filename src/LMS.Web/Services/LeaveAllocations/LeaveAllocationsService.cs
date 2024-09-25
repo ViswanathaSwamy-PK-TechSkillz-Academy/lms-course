@@ -84,7 +84,9 @@ public class LeaveAllocationsService(LMSDbContext lmsDbContext, IHttpContextAcce
     public async Task<EmployeeListVM> GetEmployees()
     {
         var employees = await userManager.GetUsersInRoleAsync(Roles.Employee);
-        var employeeListVm = mapper.Map<List<EmployeeVM>>(employees);
+
+        var employeeListVm = mapper.Map<List<EmployeeListVM>>(employees);
+        
         EmployeeListVM employeeList = new()
         {
             Employees = employeeListVm
