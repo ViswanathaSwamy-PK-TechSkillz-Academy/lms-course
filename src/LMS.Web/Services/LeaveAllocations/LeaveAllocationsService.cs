@@ -67,7 +67,12 @@ public class LeaveAllocationsService(LMSDbContext lmsDbContext, IHttpContextAcce
 
     public async Task<EmployeeAllocationVM> GetEmployeeAllocations(string? userId)
     {
-        var allocations = await GetAllocations();
+
+        var user = string.IsNullOrEmpty(userId) 
+            ? await userManager.GetUserAsync(httpContextAccessor.HttpContext?.User!) 
+            : await userManager.FindByIdAsync(userId);
+
+        var allocations = await GetAllocations(userId);
 
         var allocationsVmList = mapper.Map<List<LeaveAllocationVM>>(allocations);
 
