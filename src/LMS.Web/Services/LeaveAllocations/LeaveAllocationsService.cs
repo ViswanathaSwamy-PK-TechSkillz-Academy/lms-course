@@ -40,17 +40,6 @@ public class LeaveAllocationsService(LMSDbContext lmsDbContext, IHttpContextAcce
         await lmsDbContext.SaveChangesAsync();
     }
 
-    private async Task<List<LeaveAllocation>> GetAllocations(string? userId)
-    {
-        var leaveAllocations = await lmsDbContext.LeaveAllocations
-            .Include(r => r.LeaveType)
-            .Include(r => r.Period)
-            .Where(r => r.EmployeeId == userId && r.Period!.EndDate.Year == DateTime.Now.Year)
-            .ToListAsync();
-
-        return leaveAllocations;
-    }
-
     public async Task<EmployeeAllocationVM> GetEmployeeAllocations(string? userId)
     {
         var user = string.IsNullOrEmpty(userId)
@@ -83,4 +72,14 @@ public class LeaveAllocationsService(LMSDbContext lmsDbContext, IHttpContextAcce
         return employeeListVm;
     }
 
+    private async Task<List<LeaveAllocation>> GetAllocations(string? userId)
+    {
+        var leaveAllocations = await lmsDbContext.LeaveAllocations
+            .Include(r => r.LeaveType)
+            .Include(r => r.Period)
+            .Where(r => r.EmployeeId == userId && r.Period!.EndDate.Year == DateTime.Now.Year)
+            .ToListAsync();
+
+        return leaveAllocations;
+    }
 }
