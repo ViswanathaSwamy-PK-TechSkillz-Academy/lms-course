@@ -31,9 +31,17 @@
                                 <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
                                     <li><a class="dropdown-item" asp-controller="LeaveTypes" asp-action="Index">Leave Types</a></li>
                                     <li><a class="dropdown-item" asp-controller="Periods" asp-action="Index">Periods</a></li>
-@*                                     <li><a class="dropdown-item" asp-controller="LeaveAllocation" asp-action="Index">View Employees</a></li>
-                                    <li><a class="dropdown-item" asp-controller="LeaveRequests" asp-action="ListRequests">Manage Requests</a></li>
- *@                                </ul>
+                                    @*
+                                <li><a class="dropdown-item" asp-controller="LeaveAllocations" asp-action="Index">View Employees</a></li>
+                                <li><a class="dropdown-item" asp-controller="LeaveRequests" asp-action="ListRequests">Manage Requests</a></li>
+                                *@
+                                </ul>
+                            </li>
+                        }
+                        @if (User.Identity!.IsAuthenticated)
+                        {
+                            <li class="nav-item">
+                                <a class="nav-link text-light" asp-area="" asp-controller="LeaveAllocations" asp-action="Details">View Allocations</a>
                             </li>
                         }
                         <li class="nav-item">

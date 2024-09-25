@@ -1,4 +1,5 @@
-﻿using LMS.Data.Entities;
+﻿using AutoMapper;
+using LMS.Data.Entities;
 using LMS.Persistence;
 using LMS.Web.Models.LeaveAllocations;
 using Microsoft.AspNetCore.Identity;
@@ -7,7 +8,7 @@ using Microsoft.EntityFrameworkCore;
 namespace LMS.Web.Services.LeaveAllocations;
 
 public class LeaveAllocationsService(LMSDbContext lmsDbContext, IHttpContextAccessor httpContextAccessor,
-    UserManager<ApplicationUser> userManager) : ILeaveAllocationsService
+    UserManager<ApplicationUser> userManager, IMapper mapper) : ILeaveAllocationsService
 {
     public async Task AllocateLeave(string employeeId)
     {
@@ -43,11 +44,12 @@ public class LeaveAllocationsService(LMSDbContext lmsDbContext, IHttpContextAcce
     {
         var user = await userManager.GetUserAsync(httpContextAccessor.HttpContext?.User!);
 
+        var period = await lmsDbContext.Periods.SingleAsync(r => r.EndDate.Year >= DateTime.Now.Year);
+
         var leaveAllocations = await lmsDbContext.LeaveAllocations
             .Include(r => r.LeaveType)
-            .Include(r => r.EmployeeId)
             .Include(r => r.Period)
-            .Where(r => r.EmployeeId == user!.Id)
+            .Where(r => r.EmployeeId == user!.Id && r.Period!.Id == period.Id)
             .ToListAsync();
 
         return leaveAllocations;
@@ -55,16 +57,28 @@ public class LeaveAllocationsService(LMSDbContext lmsDbContext, IHttpContextAcce
 
     public async Task<EmployeeAllocationVM> GetEmployeeAllocations()
     {
+        var allocations = await GetAllocations();
+
+        var allocationsVmList = mapper.Map<List<LeaveAllocationVM>>(allocations);
+
         var user = await userManager.GetUserAsync(httpContextAccessor.HttpContext?.User!);
 
-        //var leaveAllocations = await lmsDbContext.LeaveAllocations
-        //    .Include(r => r.LeaveType)
-        //    .Include(r => r.EmployeeId)
-        //    .Include(r => r.Period)
-        //    .Where(r => r.EmployeeId == user!.Id)
-        //    .ToListAsync();
+        EmployeeAllocationVM employeeAllocationVm = new()
+        {
+            DateOfBirth = user!.DateOfBirth,
 
-        return null;
+            Email = user.Email!,
+
+            FirstName = user!.FirstName,
+
+            LastName = user!.LastName,
+
+            Id = user!.Id,
+
+            LeaveAllocations = allocationsVmList
+        };
+
+        return employeeAllocationVm;
     }
 
 }
