@@ -50,6 +50,8 @@ public class LeaveAllocationsService(LMSDbContext lmsDbContext, IHttpContextAcce
 
         var allocationsVmList = mapper.Map<List<LeaveAllocationVM>>(allocations);
 
+        var leaveTypesCount = await lmsDbContext.LeaveTypes.CountAsync();
+
         EmployeeAllocationVM employeeAllocationVm = new()
         {
             DateOfBirth = user!.DateOfBirth,
@@ -57,7 +59,8 @@ public class LeaveAllocationsService(LMSDbContext lmsDbContext, IHttpContextAcce
             FirstName = user!.FirstName,
             LastName = user!.LastName,
             Id = user!.Id,
-            LeaveAllocations = allocationsVmList
+            LeaveAllocations = allocationsVmList,
+            IsCompletedAllocation = leaveTypesCount == allocations.Count
         };
 
         return employeeAllocationVm;
