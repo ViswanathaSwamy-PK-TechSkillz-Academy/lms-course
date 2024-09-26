@@ -11,7 +11,7 @@ public class LeaveAllocationsController(ILeaveAllocationsService leaveAllocation
     public async Task<IActionResult> Index()
     {
         var employees = await leaveAllocationsService.GetEmployees();
-
+        
         return View(employees);
     }
 
