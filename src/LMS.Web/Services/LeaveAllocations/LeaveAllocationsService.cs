@@ -40,45 +40,46 @@ public class LeaveAllocationsService(LMSDbContext lmsDbContext, IHttpContextAcce
         await lmsDbContext.SaveChangesAsync();
     }
 
-    public async Task<List<LeaveAllocation>> GetAllocations()
+    public async Task<EmployeeAllocationVM> GetEmployeeAllocations(string? userId)
     {
-        var user = await userManager.GetUserAsync(httpContextAccessor.HttpContext?.User!);
+        var user = string.IsNullOrEmpty(userId)
+            ? await userManager.GetUserAsync(httpContextAccessor.HttpContext?.User!)
+            : await userManager.FindByIdAsync(userId);
 
-        var period = await lmsDbContext.Periods.SingleAsync(r => r.EndDate.Year >= DateTime.Now.Year);
-
-        var leaveAllocations = await lmsDbContext.LeaveAllocations
-            .Include(r => r.LeaveType)
-            .Include(r => r.Period)
-            .Where(r => r.EmployeeId == user!.Id && r.Period!.Id == period.Id)
-            .ToListAsync();
-
-        return leaveAllocations;
-    }
-
-    public async Task<EmployeeAllocationVM> GetEmployeeAllocations()
-    {
-        var allocations = await GetAllocations();
+        var allocations = await GetAllocations(user?.Id);
 
         var allocationsVmList = mapper.Map<List<LeaveAllocationVM>>(allocations);
-
-        var user = await userManager.GetUserAsync(httpContextAccessor.HttpContext?.User!);
 
         EmployeeAllocationVM employeeAllocationVm = new()
         {
             DateOfBirth = user!.DateOfBirth,
-
             Email = user.Email!,
-
             FirstName = user!.FirstName,
-
             LastName = user!.LastName,
-
             Id = user!.Id,
-
             LeaveAllocations = allocationsVmList
         };
 
         return employeeAllocationVm;
     }
 
+    public async Task<List<EmployeeListVM>> GetEmployees()
+    {
+        var employees = await userManager.GetUsersInRoleAsync(Roles.Employee);
+
+        var employeeListVm = mapper.Map<List<EmployeeListVM>>(employees);
+
+        return employeeListVm;
+    }
+
+    private async Task<List<LeaveAllocation>> GetAllocations(string? userId)
+    {
+        var leaveAllocations = await lmsDbContext.LeaveAllocations
+            .Include(r => r.LeaveType)
+            .Include(r => r.Period)
+            .Where(r => r.EmployeeId == userId && r.Period!.EndDate.Year == DateTime.Now.Year)
+            .ToListAsync();
+
+        return leaveAllocations;
+    }
 }

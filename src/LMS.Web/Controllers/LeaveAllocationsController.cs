@@ -7,17 +7,17 @@ namespace LMS.Web.Controllers;
 [Authorize]
 public class LeaveAllocationsController(ILeaveAllocationsService leaveAllocationsService) : Controller
 {
-
+    [Authorize(Roles = Roles.Administrator)]
     public async Task<IActionResult> Index()
     {
-        var leaveAllocations = await leaveAllocationsService.GetEmployeeAllocations();
-
-        return View(leaveAllocations);
+        var employees = await leaveAllocationsService.GetEmployees();
+        
+        return View(employees);
     }
 
-    public async Task<IActionResult> Details()
+    public async Task<IActionResult> Details(string? userId)
     {
-        var employeeVm = await leaveAllocationsService.GetEmployeeAllocations();
+        var employeeVm = await leaveAllocationsService.GetEmployeeAllocations(userId);
 
         return View(employeeVm);
     }
