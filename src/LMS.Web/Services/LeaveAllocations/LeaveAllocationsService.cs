@@ -13,7 +13,9 @@ public class LeaveAllocationsService(LMSDbContext lmsDbContext, IHttpContextAcce
     public async Task AllocateLeave(string employeeId)
     {
         // get all the leave types
-        List<LeaveType> leaveTypes = await lmsDbContext.LeaveTypes.ToListAsync();
+        List<LeaveType> leaveTypes = await lmsDbContext.LeaveTypes
+            .Where(q => !q.LeaveAllocations.Any(x => x.EmployeeId == employeeId))
+            .ToListAsync();
 
         // get the current period based on the year
         int currentYear = DateTime.Now.Year;
@@ -24,6 +26,13 @@ public class LeaveAllocationsService(LMSDbContext lmsDbContext, IHttpContextAcce
         // foreach leave type, create an allocation entry
         foreach (var leaveType in leaveTypes)
         {
+            // Works, but not best practice
+            //var allocationExists = await AllocationExists(employeeId, period.Id, leaveType.Id);
+            //if (allocationExists)
+            //{
+            //    continue;
+            //}
+
             decimal accrualRate = decimal.Divide(leaveType.NumberOfDays, 12);
 
             LeaveAllocation leaveAllocation = new()
