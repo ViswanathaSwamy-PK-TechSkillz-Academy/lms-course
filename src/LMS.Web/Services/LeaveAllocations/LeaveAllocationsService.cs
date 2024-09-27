@@ -26,12 +26,13 @@ public class LeaveAllocationsService(LMSDbContext lmsDbContext, IHttpContextAcce
         // foreach leave type, create an allocation entry
         foreach (var leaveType in leaveTypes)
         {
-            // Works, but not best practice
+            #region Works, but not best practice
             //var allocationExists = await AllocationExists(employeeId, period.Id, leaveType.Id);
             //if (allocationExists)
             //{
             //    continue;
             //}
+            #endregion
 
             decimal accrualRate = decimal.Divide(leaveType.NumberOfDays, 12);
 
