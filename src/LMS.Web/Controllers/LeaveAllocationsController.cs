@@ -23,6 +23,8 @@ public class LeaveAllocationsController(ILeaveAllocationsService leaveAllocation
     }
 
     [Authorize(Roles = Roles.Administrator)]
+    [HttpPost]
+    [ValidateAntiForgeryToken]
     public async Task<IActionResult> AllocateLeave(string id)
     {
         await leaveAllocationsService.AllocateLeave(id);

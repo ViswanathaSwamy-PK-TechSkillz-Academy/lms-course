@@ -51,6 +51,12 @@
 <hr />
 @if (isAdmin && !Model.IsCompletedAllocation)
 {
+    @*
+    In this case, the action method is called AllocateLeave and the route parameter is userId.
+    Example: public async Task<IActionResult> AllocateLeave(string id)
+     <a class="btn btn-warning" asp-action="AllocateLeave" asp-route-userId="@Model.Id" />
+    *@
+
     <div class="alert alert-warning">
         <p>User is missing some leave allocations.</p>
     </div>
