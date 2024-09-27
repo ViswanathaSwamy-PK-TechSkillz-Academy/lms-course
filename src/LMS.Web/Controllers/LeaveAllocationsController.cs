@@ -21,4 +21,13 @@ public class LeaveAllocationsController(ILeaveAllocationsService leaveAllocation
 
         return View(employeeVm);
     }
+
+    [Authorize(Roles = Roles.Administrator)]
+    public async Task<IActionResult> AllocateLeave(string? userId)
+    {
+        await leaveAllocationsService.AllocateLeave(userId);
+
+        return View();
+    }
+
 }

@@ -85,4 +85,13 @@ public class LeaveAllocationsService(LMSDbContext lmsDbContext, IHttpContextAcce
 
         return leaveAllocations;
     }
+
+    private async Task<bool> AllocationExists(string userId, int periodId, int leaveTypeId)
+    {
+        var exists = await lmsDbContext.LeaveAllocations.AnyAsync(q =>
+            q.EmployeeId == userId && q.LeaveTypeId == leaveTypeId && q.PeriodId == periodId
+        );
+
+        return exists;
+    }
 }
