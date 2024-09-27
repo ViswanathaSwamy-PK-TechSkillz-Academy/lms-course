@@ -9,5 +9,5 @@ public class LeaveType : BaseEntity
 
     public int NumberOfDays { get; set; }
 
-    //public List<LeaveAllocation>? LeaveAllocations { get; set; }
+    public List<LeaveAllocation>? LeaveAllocations { get; set; }
 }
