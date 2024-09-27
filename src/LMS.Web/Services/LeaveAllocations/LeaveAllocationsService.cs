@@ -14,7 +14,7 @@ public class LeaveAllocationsService(LMSDbContext lmsDbContext, IHttpContextAcce
     {
         // get all the leave types
         List<LeaveType> leaveTypes = await lmsDbContext.LeaveTypes
-            .Where(q => !q.LeaveAllocations.Any(x => x.EmployeeId == employeeId))
+            .Where(q => q.LeaveAllocations != null && !q.LeaveAllocations.Any(x => x.EmployeeId == employeeId))
             .ToListAsync();
 
         // get the current period based on the year
