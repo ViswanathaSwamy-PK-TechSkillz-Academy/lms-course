@@ -23,11 +23,11 @@ public class LeaveAllocationsController(ILeaveAllocationsService leaveAllocation
     }
 
     [Authorize(Roles = Roles.Administrator)]
-    public async Task<IActionResult> AllocateLeave(string? userId)
+    public async Task<IActionResult> AllocateLeave(string id)
     {
-        await leaveAllocationsService.AllocateLeave(userId);
+        await leaveAllocationsService.AllocateLeave(id);
 
-        return View();
+        return RedirectToAction(nameof(Details), new { userId = id });
     }
 
 }
