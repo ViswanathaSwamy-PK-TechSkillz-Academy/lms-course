@@ -13,7 +13,9 @@ public class LeaveAllocationsService(LMSDbContext lmsDbContext, IHttpContextAcce
     public async Task AllocateLeave(string employeeId)
     {
         // get all the leave types
-        List<LeaveType> leaveTypes = await lmsDbContext.LeaveTypes.ToListAsync();
+        List<LeaveType> leaveTypes = await lmsDbContext.LeaveTypes
+            .Where(q => q.LeaveAllocations != null && !q.LeaveAllocations.Any(x => x.EmployeeId == employeeId))
+            .ToListAsync();
 
         // get the current period based on the year
         int currentYear = DateTime.Now.Year;
@@ -24,6 +26,14 @@ public class LeaveAllocationsService(LMSDbContext lmsDbContext, IHttpContextAcce
         // foreach leave type, create an allocation entry
         foreach (var leaveType in leaveTypes)
         {
+            #region Works, but not best practice
+            //var allocationExists = await AllocationExists(employeeId, period.Id, leaveType.Id);
+            //if (allocationExists)
+            //{
+            //    continue;
+            //}
+            #endregion
+
             decimal accrualRate = decimal.Divide(leaveType.NumberOfDays, 12);
 
             LeaveAllocation leaveAllocation = new()
@@ -50,6 +60,8 @@ public class LeaveAllocationsService(LMSDbContext lmsDbContext, IHttpContextAcce
 
         var allocationsVmList = mapper.Map<List<LeaveAllocationVM>>(allocations);
 
+        var leaveTypesCount = await lmsDbContext.LeaveTypes.CountAsync();
+
         EmployeeAllocationVM employeeAllocationVm = new()
         {
             DateOfBirth = user!.DateOfBirth,
@@ -57,7 +69,8 @@ public class LeaveAllocationsService(LMSDbContext lmsDbContext, IHttpContextAcce
             FirstName = user!.FirstName,
             LastName = user!.LastName,
             Id = user!.Id,
-            LeaveAllocations = allocationsVmList
+            LeaveAllocations = allocationsVmList,
+            IsCompletedAllocation = leaveTypesCount == allocations.Count
         };
 
         return employeeAllocationVm;
@@ -81,5 +94,14 @@ public class LeaveAllocationsService(LMSDbContext lmsDbContext, IHttpContextAcce
             .ToListAsync();
 
         return leaveAllocations;
+    }
+
+    private async Task<bool> AllocationExists(string userId, int periodId, int leaveTypeId)
+    {
+        var exists = await lmsDbContext.LeaveAllocations.AnyAsync(q =>
+            q.EmployeeId == userId && q.LeaveTypeId == leaveTypeId && q.PeriodId == periodId
+        );
+
+        return exists;
     }
 }

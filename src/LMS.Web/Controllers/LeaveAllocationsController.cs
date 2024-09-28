@@ -11,7 +11,7 @@ public class LeaveAllocationsController(ILeaveAllocationsService leaveAllocation
     public async Task<IActionResult> Index()
     {
         var employees = await leaveAllocationsService.GetEmployees();
-        
+
         return View(employees);
     }
 
@@ -21,4 +21,15 @@ public class LeaveAllocationsController(ILeaveAllocationsService leaveAllocation
 
         return View(employeeVm);
     }
+
+    [Authorize(Roles = Roles.Administrator)]
+    [HttpPost]
+    [ValidateAntiForgeryToken]
+    public async Task<IActionResult> AllocateLeave(string id)
+    {
+        await leaveAllocationsService.AllocateLeave(id);
+
+        return RedirectToAction(nameof(Details), new { userId = id });
+    }
+
 }
