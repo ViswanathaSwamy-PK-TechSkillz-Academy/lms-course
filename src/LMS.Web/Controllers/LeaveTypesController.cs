@@ -26,7 +26,7 @@ public class LeaveTypesController(ILeaveTypesService leaveTypesService, ILogger<
     {
         logger.LogInformation("LeaveType details page visited at {time} with {id}", DateTime.Now, id);
 
-        logger.LogInformation($"Id: {id}");
+        logger.LogInformation("Id: {id}", id);
 
         if (id == null)
         {
