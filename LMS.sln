@@ -32,6 +32,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LMS.Data", "src\LMS.Data\LM
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LMS.Persistence", "src\LMS.Persistence\LMS.Persistence.csproj", "{34F25CEF-6C8A-4677-8908-77F9DA0DE998}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LMS.Data.Tests", "tests\LMS.Data.Tests\LMS.Data.Tests.csproj", "{DCB7872A-47AB-42B4-9500-D077101965D5}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -54,6 +56,10 @@ Global
 		{34F25CEF-6C8A-4677-8908-77F9DA0DE998}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{34F25CEF-6C8A-4677-8908-77F9DA0DE998}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{34F25CEF-6C8A-4677-8908-77F9DA0DE998}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DCB7872A-47AB-42B4-9500-D077101965D5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DCB7872A-47AB-42B4-9500-D077101965D5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DCB7872A-47AB-42B4-9500-D077101965D5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DCB7872A-47AB-42B4-9500-D077101965D5}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -64,6 +70,7 @@ Global
 		{AA1D16B5-7AC4-408C-B300-DA92A8D59874} = {55E10625-1FFE-4F18-B206-9934B870B275}
 		{E4707063-504B-481B-9ADD-15844AB41136} = {55E10625-1FFE-4F18-B206-9934B870B275}
 		{34F25CEF-6C8A-4677-8908-77F9DA0DE998} = {55E10625-1FFE-4F18-B206-9934B870B275}
+		{DCB7872A-47AB-42B4-9500-D077101965D5} = {385B5047-826A-416F-8097-E8695F44C4F4}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {CFD912A6-4CD3-4B61-91B5-89D3C38FE1C2}
