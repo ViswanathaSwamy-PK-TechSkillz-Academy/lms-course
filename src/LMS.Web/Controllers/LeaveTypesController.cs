@@ -26,7 +26,7 @@ public class LeaveTypesController(ILeaveTypesService leaveTypesService, ILogger<
     {
         logger.LogInformation("LeaveType details page visited at {time} with {id}", DateTime.Now, id);
 
-        logger.LogInformation($"Id: {id}");
+        logger.LogInformation("Id: {id}", id);
 
         if (id == null)
         {
@@ -58,7 +58,7 @@ public class LeaveTypesController(ILeaveTypesService leaveTypesService, ILogger<
         // Adding custom validation and model state error
         if (leaveTypeCreateVM.Name.Contains("test", StringComparison.CurrentCultureIgnoreCase))
         {
-            ModelState.AddModelError(nameof(leaveTypeCreateVM.Name), "Name cannot contain the word test");
+            ModelState.AddModelError(nameof(leaveTypeCreateVM.Name), "Name cannot contain the word `test`");
         }
 
         if (await leaveTypesService.CheckIfLeaveTypeNameExists(leaveTypeCreateVM.Name))
