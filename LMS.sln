@@ -15,9 +15,6 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "images", "images", "{EE0A92
 	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{385B5047-826A-416F-8097-E8695F44C4F4}"
-	ProjectSection(SolutionItems) = preProject
-		tests\A.txt = tests\A.txt
-	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "iac", "iac", "{1BF9A910-9E11-4CB0-A6C5-DE3A2A49925A}"
 	ProjectSection(SolutionItems) = preProject
