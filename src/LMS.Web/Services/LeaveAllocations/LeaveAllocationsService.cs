@@ -97,6 +97,11 @@ public class LeaveAllocationsService(LMSDbContext lmsDbContext, IHttpContextAcce
         return model;
     }
 
+    public Task EditAllocation(LeaveAllocationEditVM allocationEditVM)
+    {
+        throw new NotImplementedException();
+    }
+
     private async Task<List<LeaveAllocation>> GetAllocations(string? userId)
     {
         var leaveAllocations = await lmsDbContext.LeaveAllocations
@@ -116,6 +121,5 @@ public class LeaveAllocationsService(LMSDbContext lmsDbContext, IHttpContextAcce
 
         return exists;
     }
-
 
 }
