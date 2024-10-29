@@ -32,4 +32,20 @@ public class LeaveAllocationsController(ILeaveAllocationsService leaveAllocation
         return RedirectToAction(nameof(Details), new { id });
     }
 
+    public async Task<IActionResult> EditAllocation(int? id)
+    {
+        if (id == null)
+        {
+            return NotFound();
+        }
+
+        var allocation = await leaveAllocationsService.GetEmployeeAllocation(id.Value);
+        if (allocation == null)
+        {
+            return NotFound();
+        }
+
+        return View(allocation);
+    }
+
 }
