@@ -99,16 +99,16 @@ public class LeaveAllocationsService(LMSDbContext lmsDbContext, IHttpContextAcce
 
     public async Task EditAllocation(LeaveAllocationEditVM allocationEditVM)
     {
-        var leaveAllocation = await GetEmployeeAllocation(allocationEditVM.Id) ?? throw new Exception("Leave allocation record does not exist.");
+        //var leaveAllocation = await GetEmployeeAllocation(allocationEditVM.Id) ?? throw new Exception("Leave allocation record does not exist.");
 
-        leaveAllocation.Days = allocationEditVM.Days;
-        //option 1 _context.Update(leaveAllocation);
-        //option 2 _context.Entry(leaveAllocation).State = EntityState.Modified;
-        await lmsDbContext.SaveChangesAsync();
+        //leaveAllocation.Days = allocationEditVM.Days;
+        //option 1 // lmsDbContext.Update(leaveAllocation);
+        //option 2 // lmsDbContext.Entry(leaveAllocation).State = EntityState.Modified;
+        // await lmsDbContext.SaveChangesAsync();
 
-        //await _context.LeaveAllocations
-        //    .Where(q => q.Id == allocationEditVm.Id)
-        //    .ExecuteUpdateAsync(s => s.SetProperty(e => e.Days, allocationEditVm.Days));
+        await lmsDbContext.LeaveAllocations
+            .Where(q => q.Id == allocationEditVM.Id)
+            .ExecuteUpdateAsync(s => s.SetProperty(e => e.Days, allocationEditVM.Days));
     }
 
     private async Task<List<LeaveAllocation>> GetAllocations(string? userId)
