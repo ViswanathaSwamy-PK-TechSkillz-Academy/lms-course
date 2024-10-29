@@ -29,7 +29,7 @@ public class LeaveAllocationsController(ILeaveAllocationsService leaveAllocation
     {
         await leaveAllocationsService.AllocateLeave(id);
 
-        return RedirectToAction(nameof(Details), new { userId = id });
+        return RedirectToAction(nameof(Details), new { id });
     }
 
 }
