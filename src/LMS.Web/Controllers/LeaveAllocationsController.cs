@@ -49,6 +49,7 @@ public class LeaveAllocationsController(ILeaveAllocationsService leaveAllocation
         return View(allocation);
     }
 
+    [HttpPost]
     public async Task<IActionResult> EditAllocation(LeaveAllocationEditVM allocationEditVM)
     {
         await leaveAllocationsService.EditAllocation(allocationEditVM);
