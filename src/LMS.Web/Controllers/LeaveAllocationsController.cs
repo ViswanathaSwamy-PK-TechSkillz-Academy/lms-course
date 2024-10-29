@@ -52,7 +52,7 @@ public class LeaveAllocationsController(ILeaveAllocationsService leaveAllocation
     public async Task<IActionResult> EditAllocation(LeaveAllocationEditVM allocationEditVM)
     {
         await leaveAllocationsService.EditAllocation(allocationEditVM);
-        
+
         return RedirectToAction(nameof(Details), new { userId = allocationEditVM?.Employee?.Id });
     }
 
