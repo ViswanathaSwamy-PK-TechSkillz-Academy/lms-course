@@ -99,11 +99,7 @@ public class LeaveAllocationsService(LMSDbContext lmsDbContext, IHttpContextAcce
 
     public async Task EditAllocation(LeaveAllocationEditVM allocationEditVM)
     {
-        var leaveAllocation = await GetEmployeeAllocation(allocationEditVM.Id);
-        if (leaveAllocation == null)
-        {
-            throw new Exception("Leave allocation record does not exist.");
-        }
+        var leaveAllocation = await GetEmployeeAllocation(allocationEditVM.Id) ?? throw new Exception("Leave allocation record does not exist.");
 
         leaveAllocation.Days = allocationEditVM.Days;
         //option 1 _context.Update(leaveAllocation);
