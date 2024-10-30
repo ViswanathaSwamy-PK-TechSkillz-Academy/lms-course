@@ -1,12 +1,14 @@
 ﻿using LMS.Web.Models.LeaveAllocations;
 using LMS.Web.Services.LeaveAllocations;
+using LMS.Web.Services.LeaveTypes;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace LMS.Web.Controllers;
 
 [Authorize]
-public class LeaveAllocationsController(ILeaveAllocationsService leaveAllocationsService) : Controller
+public class LeaveAllocationsController(ILeaveAllocationsService leaveAllocationsService
+    , ILeaveTypesService leaveTypesService) : Controller
 {
     [Authorize(Roles = Roles.Administrator)]
     public async Task<IActionResult> Index()
@@ -50,8 +52,19 @@ public class LeaveAllocationsController(ILeaveAllocationsService leaveAllocation
     }
 
     [HttpPost]
+    [ValidateAntiForgeryToken]
     public async Task<IActionResult> EditAllocation(LeaveAllocationEditVM allocationEditVM)
     {
+        if (await leaveTypesService.DaysExceedMaximum(allocationEditVM.LeaveType.Id, allocationEditVM.Days))
+        {
+            ModelState.AddModelError("Days", "Number of days exceeds the maximum days allowed");
+        }
+
+        if (ModelState.IsValid == false)
+        {
+            return View(allocationEditVM);
+        }
+
         await leaveAllocationsService.EditAllocation(allocationEditVM);
 
         return RedirectToAction(nameof(Details), new { userId = allocationEditVM?.Employee?.Id });
