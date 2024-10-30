@@ -10,5 +10,5 @@
 		<PackageReference Include="Azure.Identity" Version="1.13.*" />
 		<PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="8.0.*" />
 	</ItemGroup>
-	
+
 </Project>

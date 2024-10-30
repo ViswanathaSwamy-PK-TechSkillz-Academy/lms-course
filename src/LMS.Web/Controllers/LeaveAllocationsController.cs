@@ -1,4 +1,5 @@
-﻿using LMS.Web.Services.LeaveAllocations;
+﻿using LMS.Web.Models.LeaveAllocations;
+using LMS.Web.Services.LeaveAllocations;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -29,7 +30,31 @@ public class LeaveAllocationsController(ILeaveAllocationsService leaveAllocation
     {
         await leaveAllocationsService.AllocateLeave(id);
 
-        return RedirectToAction(nameof(Details), new { userId = id });
+        return RedirectToAction(nameof(Details), new { id });
+    }
+
+    public async Task<IActionResult> EditAllocation(int? id)
+    {
+        if (id == null)
+        {
+            return NotFound();
+        }
+
+        var allocation = await leaveAllocationsService.GetEmployeeAllocation(id.Value);
+        if (allocation == null)
+        {
+            return NotFound();
+        }
+
+        return View(allocation);
+    }
+
+    [HttpPost]
+    public async Task<IActionResult> EditAllocation(LeaveAllocationEditVM allocationEditVM)
+    {
+        await leaveAllocationsService.EditAllocation(allocationEditVM);
+
+        return RedirectToAction(nameof(Details), new { userId = allocationEditVM?.Employee?.Id });
     }
 
 }

@@ -85,6 +85,32 @@ public class LeaveAllocationsService(LMSDbContext lmsDbContext, IHttpContextAcce
         return employeeListVm;
     }
 
+    public async Task<LeaveAllocationEditVM> GetEmployeeAllocation(int allocationId)
+    {
+        var allocation = await lmsDbContext.LeaveAllocations
+               .Include(q => q.LeaveType)
+               .Include(q => q.Employee)
+               .FirstOrDefaultAsync(q => q.Id == allocationId);
+
+        var model = mapper.Map<LeaveAllocationEditVM>(allocation);
+
+        return model;
+    }
+
+    public async Task EditAllocation(LeaveAllocationEditVM allocationEditVM)
+    {
+        //var leaveAllocation = await GetEmployeeAllocation(allocationEditVM.Id) ?? throw new Exception("Leave allocation record does not exist.");
+
+        //leaveAllocation.Days = allocationEditVM.Days;
+        //option 1 // lmsDbContext.Update(leaveAllocation);
+        //option 2 // lmsDbContext.Entry(leaveAllocation).State = EntityState.Modified;
+        // await lmsDbContext.SaveChangesAsync();
+
+        await lmsDbContext.LeaveAllocations
+            .Where(q => q.Id == allocationEditVM.Id)
+            .ExecuteUpdateAsync(s => s.SetProperty(e => e.Days, allocationEditVM.Days));
+    }
+
     private async Task<List<LeaveAllocation>> GetAllocations(string? userId)
     {
         var leaveAllocations = await lmsDbContext.LeaveAllocations
@@ -104,4 +130,5 @@ public class LeaveAllocationsService(LMSDbContext lmsDbContext, IHttpContextAcce
 
         return exists;
     }
+
 }
