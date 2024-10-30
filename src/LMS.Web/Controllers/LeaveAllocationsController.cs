@@ -62,6 +62,10 @@ public class LeaveAllocationsController(ILeaveAllocationsService leaveAllocation
 
         if (ModelState.IsValid == false)
         {
+            var days = allocation.Days;
+            allocation = await leaveAllocationsService.GetEmployeeAllocation(allocation.Id);
+            allocation.Days = days;
+
             return View(allocation);
         }
 
