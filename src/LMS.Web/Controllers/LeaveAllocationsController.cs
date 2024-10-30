@@ -53,21 +53,21 @@ public class LeaveAllocationsController(ILeaveAllocationsService leaveAllocation
 
     [HttpPost]
     [ValidateAntiForgeryToken]
-    public async Task<IActionResult> EditAllocation(LeaveAllocationEditVM allocationEditVM)
+    public async Task<IActionResult> EditAllocation(LeaveAllocationEditVM allocation)
     {
-        if (await leaveTypesService.DaysExceedMaximum(allocationEditVM.LeaveType.Id, allocationEditVM.Days))
+        if (await leaveTypesService.DaysExceedMaximum(allocation.LeaveType.Id, allocation.Days))
         {
             ModelState.AddModelError("Days", "Number of days exceeds the maximum days allowed");
         }
 
         if (ModelState.IsValid == false)
         {
-            return View(allocationEditVM);
+            return View(allocation);
         }
 
-        await leaveAllocationsService.EditAllocation(allocationEditVM);
+        await leaveAllocationsService.EditAllocation(allocation);
 
-        return RedirectToAction(nameof(Details), new { userId = allocationEditVM?.Employee?.Id });
+        return RedirectToAction(nameof(Details), new { userId = allocation?.Employee?.Id });
     }
 
 }
