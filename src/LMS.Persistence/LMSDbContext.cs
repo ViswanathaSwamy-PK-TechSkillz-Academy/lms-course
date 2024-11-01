@@ -22,6 +22,14 @@ public class LMSDbContext(DbContextOptions<LMSDbContext> options) : DbContext(op
         // Set default schema for the entire context
         modelBuilder.HasDefaultSchema("lms");
 
+        // Configure the relationship
+        modelBuilder.Entity<LeaveAllocation>()
+            .HasOne(l => l.Employee)
+            .WithMany()
+            .HasForeignKey(l => l.EmployeeId)
+            .IsRequired()
+            .OnDelete(DeleteBehavior.Restrict);
+
         // Seeding Default Data
         modelBuilder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());
     }
